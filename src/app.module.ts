@@ -1,0 +1,35 @@
+import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { AppController } from './app.controller';
+import { DatabaseConfiguration } from './config/database.configuration';
+import { Administrator } from './entities/administrator.entity';
+import { User } from './entities/user.entity';
+import { AdministratorService } from './services/administrator/administrator.service';
+import { UserService } from './services/user/user.service';
+
+
+@Module({
+  //glavni modul treba da izvrsi povezivanje sa mysql-om pomocu imports komponente
+  //imports- navodi spisak svih modula koje ovaj nas modul importuje
+  //koristimo modul za povezivanje na typeorm bazu podataka
+  imports: [
+    TypeOrmModule.forRoot({
+      type:'mysql',
+      host:DatabaseConfiguration.hostname,
+      port:3306,
+      username:DatabaseConfiguration.username,
+      password:DatabaseConfiguration.password,
+      database:DatabaseConfiguration.database,
+      //typeormModul omogucava rad sa entitetima, dakle sa nekim tabelama
+      //Za svaku od tabela moramo napraviti po jedan entitet, pa ih negdje moramo navesti
+      entities:[Administrator, User]
+    }),
+    //Kada je napravljen entitet Administrator, takodje mora biti i nabrojan
+    //kao jedan od dostupnih typeorm modula sa kojima ce raditi glavna aplikacija
+    TypeOrmModule.forFeature([Administrator, User])
+    //ovoj f-ji prosledjujemo spisak svih entiteta za koje treba automatski da napravi repozitorijume
+  ],
+  controllers: [AppController],
+  providers: [AdministratorService, UserService],
+})
+export class AppModule {}
