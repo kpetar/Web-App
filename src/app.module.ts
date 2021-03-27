@@ -3,6 +3,15 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { DatabaseConfiguration } from './config/database.configuration';
 import { Administrator } from './entities/administrator.entity';
+import { Article } from './entities/article-entity';
+import { ArticleFeature } from './entities/article-feature.entity';
+import { ArticlePrice } from './entities/article-price.entity';
+import { CartArticle } from './entities/cart-article.entity';
+import { Cart } from './entities/cart.entity';
+import { Category } from './entities/category.entity';
+import { Feature } from './entities/feature.entity';
+import { Order } from './entities/order.entity';
+import { Photo } from './entities/photo.entity';
 import { User } from './entities/user.entity';
 import { AdministratorService } from './services/administrator/administrator.service';
 import { UserService } from './services/user/user.service';
@@ -22,7 +31,19 @@ import { UserService } from './services/user/user.service';
       database:DatabaseConfiguration.database,
       //typeormModul omogucava rad sa entitetima, dakle sa nekim tabelama
       //Za svaku od tabela moramo napraviti po jedan entitet, pa ih negdje moramo navesti
-      entities:[Administrator, User]
+      entities:[
+        Administrator,
+        Article,
+        ArticleFeature,
+        ArticlePrice,
+        CartArticle,
+        Cart,
+        Category,
+        Feature,
+        Order,
+        Photo,
+        User
+      ]
     }),
     //Kada je napravljen entitet Administrator, takodje mora biti i nabrojan
     //kao jedan od dostupnih typeorm modula sa kojima ce raditi glavna aplikacija

@@ -1,31 +1,26 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, Index, PrimaryGeneratedColumn } from "typeorm";
 
-//da bismo znali da je Administrator klasa moramo da je anotiramo
+@Index("uq_administrator_username", ["username"], { unique: true })
 @Entity()
+export class Administrator {
+  @PrimaryGeneratedColumn({
+    type: "int",
+    name: "administrator_id",
+    unsigned: true,
+  })
+  administratorId: number;
 
-export class Administrator{
-    //prvo polje u svim tabelama je primarni kljuc
-    @PrimaryGeneratedColumn({
-        //Preciznije definisanje kolono (citamo iz baze podataka)
-        name:'administrator_id',
-        type:'int',
-        unsigned:true
-    })
-    administratorId:number;
+  @Column({
+    type:"varchar",
+    unique: true,
+    length: 32
+  })
+  username: string;
 
-    //sledece polje je obicna kolona
-    @Column({
-        type:'varchar',
-        length:'32',
-        unique:true
-    })
-    username:string;
-
-    @Column({
-        name:'password_hash',
-        type:'varchar',
-        length:'128',
-    })
-    passwordHash:string
+  @Column({
+    type:"varchar",
+    name: "password_hash",
+    length: 128
+  })
+  passwordHash: string;
 }
-
