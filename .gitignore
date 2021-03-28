@@ -34,4 +34,4 @@ lerna-debug.log*
 !.vscode/extensions.json
 
 #My files
-config/database.configuration.ts
+config/*.ts
