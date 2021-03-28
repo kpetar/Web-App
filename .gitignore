@@ -33,5 +33,5 @@ lerna-debug.log*
 !.vscode/launch.json
 !.vscode/extensions.json
 
-#Moji fajlovi
-/config
+#My files
+config/database.configuration.ts
