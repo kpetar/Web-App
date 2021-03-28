@@ -1,20 +1,20 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AppController } from './app.controller';
-import { DatabaseConfiguration } from './config/database.configuration';
-import { Administrator } from './entities/administrator.entity';
-import { Article } from './entities/article-entity';
-import { ArticleFeature } from './entities/article-feature.entity';
-import { ArticlePrice } from './entities/article-price.entity';
-import { CartArticle } from './entities/cart-article.entity';
-import { Cart } from './entities/cart.entity';
-import { Category } from './entities/category.entity';
-import { Feature } from './entities/feature.entity';
-import { Order } from './entities/order.entity';
-import { Photo } from './entities/photo.entity';
-import { User } from './entities/user.entity';
+import { AppController } from './controllers/app.controller';
+import { DatabaseConfiguration } from '../config/database.configuration';
+import { Administrator } from '../entities/administrator.entity';
+import { Article } from '../entities/article-entity';
+import { ArticleFeature } from '../entities/article-feature.entity';
+import { ArticlePrice } from '../entities/article-price.entity';
+import { CartArticle } from '../entities/cart-article.entity';
+import { Cart } from '../entities/cart.entity';
+import { Category } from '../entities/category.entity';
+import { Feature } from '../entities/feature.entity';
+import { Order } from '../entities/order.entity';
+import { Photo } from '../entities/photo.entity';
+import { User } from '../entities/user.entity';
 import { AdministratorService } from './services/administrator/administrator.service';
-import { UserService } from './services/user/user.service';
+import { AdministratorController } from './controllers/api/administrator.controller';
 
 
 @Module({
@@ -47,10 +47,10 @@ import { UserService } from './services/user/user.service';
     }),
     //Kada je napravljen entitet Administrator, takodje mora biti i nabrojan
     //kao jedan od dostupnih typeorm modula sa kojima ce raditi glavna aplikacija
-    TypeOrmModule.forFeature([Administrator, User])
+    TypeOrmModule.forFeature([Administrator])
     //ovoj f-ji prosledjujemo spisak svih entiteta za koje treba automatski da napravi repozitorijume
   ],
-  controllers: [AppController],
-  providers: [AdministratorService, UserService],
+  controllers: [AppController, AdministratorController],
+  providers: [AdministratorService],
 })
 export class AppModule {}

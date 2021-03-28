@@ -1,7 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Administrator } from 'src/entities/administrator.entity';
-import { Repository } from 'typeorm';
+import { AddAdministratorDto } from 'src/dtos/administrator/add.administrator.dto';
+import { EditAdministratorDto } from 'src/dtos/administrator/edit.administrator.dto';
+import { Administrator } from 'entities/administrator.entity';
+import { Admin, Repository } from 'typeorm';
 
 @Injectable()
 export class AdministratorService {
@@ -23,4 +25,37 @@ export class AdministratorService {
         return this.administrator.findOne(id);
     }
 
+    //servis ce dobiti iz spoljasnjeg okruzenja data objekat koji ce biti AddAdministratorDto
+    //Dobice username, password, a treba da kreira passwordHash pa cemo obaviti transformaciju iz
+    //dto -> model
+    //username -> model
+    //password (obrada)->passwordHash
+    add(data:AddAdministratorDto){
+        
+        const crypto=require('crypto');
+        const passwordHash=crypto.createHash('sha512');
+        passwordHash.update(data.password);
+        
+        const passwordHashString=passwordHash.digest('hex').topUpperCase();
+
+        let newAdministrator:Administrator=new Administrator();
+        newAdministrator.username=data.username;
+        newAdministrator.passwordHash=passwordHashString;
+
+        return this.administrator.save(newAdministrator);
+    }
+
+    async editById(id:number, data:EditAdministratorDto):Promise<Administrator>{
+        let admin:Administrator=await this.administrator.findOne(id); 
+
+        const crypto=require('crypto');
+        const passwordHash=crypto.createHash('sha512');
+        passwordHash.update(data.password);
+        
+        const passwordHashString=passwordHash.digest('hex').topUpperCase();
+
+        admin.passwordHash=passwordHashString;
+
+        return this.administrator.save(admin);
+    }
 }
