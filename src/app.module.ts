@@ -15,6 +15,8 @@ import { Photo } from '../entities/photo.entity';
 import { User } from '../entities/user.entity';
 import { AdministratorService } from './services/administrator/administrator.service';
 import { AdministratorController } from './controllers/api/administrator.controller';
+import { CategoryController } from './controllers/api/category.controller';
+import { CategoryService } from './services/category/category.service';
 
 
 @Module({
@@ -47,10 +49,13 @@ import { AdministratorController } from './controllers/api/administrator.control
     }),
     //Kada je napravljen entitet Administrator, takodje mora biti i nabrojan
     //kao jedan od dostupnih typeorm modula sa kojima ce raditi glavna aplikacija
-    TypeOrmModule.forFeature([Administrator])
+    TypeOrmModule.forFeature([
+      Administrator,
+      Category
+    ])
     //ovoj f-ji prosledjujemo spisak svih entiteta za koje treba automatski da napravi repozitorijume
   ],
-  controllers: [AppController, AdministratorController],
-  providers: [AdministratorService],
+  controllers: [AppController, AdministratorController, CategoryController],
+  providers: [AdministratorService, CategoryService],
 })
 export class AppModule {}
