@@ -17,6 +17,9 @@ import { AdministratorService } from './services/administrator/administrator.ser
 import { AdministratorController } from './controllers/api/administrator.controller';
 import { CategoryController } from './controllers/api/category.controller';
 import { CategoryService } from './services/category/category.service';
+import { ArticleController } from './controllers/api/article.controller';
+import { ArticleService } from './services/article/article.service';
+
 
 
 @Module({
@@ -51,11 +54,12 @@ import { CategoryService } from './services/category/category.service';
     //kao jedan od dostupnih typeorm modula sa kojima ce raditi glavna aplikacija
     TypeOrmModule.forFeature([
       Administrator,
-      Category
+      Category,
+      Article
     ])
     //ovoj f-ji prosledjujemo spisak svih entiteta za koje treba automatski da napravi repozitorijume
   ],
-  controllers: [AppController, AdministratorController, CategoryController],
-  providers: [AdministratorService, CategoryService],
+  controllers: [AppController, AdministratorController, CategoryController, ArticleController],
+  providers: [AdministratorService, CategoryService, ArticleService],
 })
 export class AppModule {}

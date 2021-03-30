@@ -9,7 +9,7 @@ import {
 import { Article } from "./article-entity";
 
 @Index("fk_article_price_article_id", ["articleId"], {})
-@Entity()
+@Entity("article_price")
 export class ArticlePrice {
   @PrimaryGeneratedColumn({
     type: "int",

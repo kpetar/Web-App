@@ -13,7 +13,7 @@ import { Feature } from "./feature.entity";
 @Index("uq_article_feature_article_id_feature_id", ["articleId", "featureId"], {
   unique: true,
 })
-@Entity()
+@Entity("article_feature")
 export class ArticleFeature {
   @PrimaryGeneratedColumn({
     type: "int",

@@ -4,6 +4,7 @@ import { AddAdministratorDto } from 'src/dtos/administrator/add.administrator.dt
 import { EditAdministratorDto } from 'src/dtos/administrator/edit.administrator.dto';
 import { Administrator } from 'entities/administrator.entity';
 import { Admin, Repository } from 'typeorm';
+import * as crypto from 'crypto';
 
 @Injectable()
 export class AdministratorService {
@@ -32,7 +33,6 @@ export class AdministratorService {
     //password (obrada)->passwordHash
     add(data:AddAdministratorDto){
         
-        const crypto=require('crypto');
         const passwordHash=crypto.createHash('sha512');
         passwordHash.update(data.password);
         
@@ -48,7 +48,6 @@ export class AdministratorService {
     async editById(id:number, data:EditAdministratorDto):Promise<Administrator>{
         let admin:Administrator=await this.administrator.findOne(id); 
 
-        const crypto=require('crypto');
         const passwordHash=crypto.createHash('sha512');
         passwordHash.update(data.password);
         

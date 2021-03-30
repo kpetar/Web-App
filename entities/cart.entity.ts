@@ -13,7 +13,7 @@ import { CartArticle } from "./cart-article.entity";
 import { Order } from "./order.entity";
 
 @Index("fk_cart_user_id", ["userId"], {})
-@Entity()
+@Entity("cart")
 export class Cart {
   @PrimaryGeneratedColumn({ type: "int", name: "cart_id", unsigned: true })
   cartId: number;

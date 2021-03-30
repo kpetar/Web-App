@@ -13,7 +13,7 @@ import { Cart } from "./cart.entity";
 @Index("uq_cart_article_article_id_cart_id", ["articleId", "cartId"], {
   unique: true,
 })
-@Entity()
+@Entity("cart_article")
 export class CartArticle {
   @PrimaryGeneratedColumn({
     type: "int",
