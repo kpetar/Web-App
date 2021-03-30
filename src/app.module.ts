@@ -55,7 +55,9 @@ import { ArticleService } from './services/article/article.service';
     TypeOrmModule.forFeature([
       Administrator,
       Category,
-      Article
+      Article,
+      ArticlePrice,
+      ArticleFeature
     ])
     //ovoj f-ji prosledjujemo spisak svih entiteta za koje treba automatski da napravi repozitorijume
   ],
