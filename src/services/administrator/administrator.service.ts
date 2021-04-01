@@ -5,6 +5,7 @@ import { EditAdministratorDto } from 'src/dtos/administrator/edit.administrator.
 import { Administrator } from 'entities/administrator.entity';
 import { Admin, Repository } from 'typeorm';
 import * as crypto from 'crypto';
+import { LoginAdministratorDto } from 'src/dtos/administrator/login.administrator.dto';
 
 @Injectable()
 export class AdministratorService {
@@ -56,5 +57,18 @@ export class AdministratorService {
         admin.passwordHash=passwordHashString;
 
         return this.administrator.save(admin);
+    }
+
+    async getByUsername(username:string):Promise<Administrator|null>{
+        const admin=await this.administrator.findOne({
+            username:username
+        })
+
+        if(!admin)
+        {
+            return null;
+        }
+        return admin;
+
     }
 }

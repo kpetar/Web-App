@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './controllers/app.controller';
 import { DatabaseConfiguration } from '../config/database.configuration';
@@ -19,6 +19,8 @@ import { CategoryController } from './controllers/api/category.controller';
 import { CategoryService } from './services/category/category.service';
 import { ArticleController } from './controllers/api/article.controller';
 import { ArticleService } from './services/article/article.service';
+import { AuthorizationController } from './controllers/api/authorization.controller';
+import { AuthorizationMiddleware } from './middlewares/authorization.middlewares';
 
 
 
@@ -61,7 +63,17 @@ import { ArticleService } from './services/article/article.service';
     ])
     //ovoj f-ji prosledjujemo spisak svih entiteta za koje treba automatski da napravi repozitorijume
   ],
-  controllers: [AppController, AdministratorController, CategoryController, ArticleController],
+  controllers: [AppController, AdministratorController, CategoryController, ArticleController, 
+  AuthorizationController],
   providers: [AdministratorService, CategoryService, ArticleService],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    //consumer primjenjuje odredjeni middleware
+    consumer
+    .apply(AuthorizationMiddleware)
+    .exclude('auth/*')
+    .forRoutes('api/*');
+  }
+
+}
