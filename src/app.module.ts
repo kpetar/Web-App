@@ -21,6 +21,7 @@ import { ArticleController } from './controllers/api/article.controller';
 import { ArticleService } from './services/article/article.service';
 import { AuthorizationController } from './controllers/api/authorization.controller';
 import { AuthorizationMiddleware } from './middlewares/authorization.middlewares';
+import { PhotoService } from './services/photo/photo.services';
 
 
 
@@ -56,16 +57,22 @@ import { AuthorizationMiddleware } from './middlewares/authorization.middlewares
     //kao jedan od dostupnih typeorm modula sa kojima ce raditi glavna aplikacija
     TypeOrmModule.forFeature([
       Administrator,
-      Category,
-      Article,
-      ArticlePrice,
-      ArticleFeature
+        Article,
+        ArticleFeature,
+        ArticlePrice,
+        CartArticle,
+        Cart,
+        Category,
+        Feature,
+        Order,
+        Photo,
+        User
     ])
     //ovoj f-ji prosledjujemo spisak svih entiteta za koje treba automatski da napravi repozitorijume
   ],
   controllers: [AppController, AdministratorController, CategoryController, ArticleController, 
   AuthorizationController],
-  providers: [AdministratorService, CategoryService, ArticleService],
+  providers: [AdministratorService, CategoryService, ArticleService, PhotoService],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
