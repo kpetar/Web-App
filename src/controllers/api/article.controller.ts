@@ -9,6 +9,9 @@ import { StorageConfiguration } from "config/storage.configuration";
 import { PhotoService } from "src/services/photo/photo.services";
 import { Photo } from "entities/photo.entity";
 import { ApiResponse } from "src/misc/api.response.class";
+import * as fileType from 'file-type';
+import * as fs from 'fs';
+import * as sharp from 'sharp';
 
 @Controller('api/article')
 @Crud({
@@ -122,6 +125,24 @@ export class ArticleController{
             return new ApiResponse('error',-4002, 'File not uploaded');
         }
 
+        const fileTypeResult=await fileType.fromFile(photo.path);
+        if(!fileTypeResult)
+        {
+            fs.unlinkSync(photo.path);
+            return new ApiResponse('error',-4002,'Cannot detect file type');
+        }
+
+        //koji je pravi file-type, uzimamo njegov mimetype
+        const realMimeType=fileTypeResult.mime;
+        if(!(realMimeType.includes('jpeg')||realMimeType.includes('png')))
+        {
+            fs.unlinkSync(photo.path);
+            return new ApiResponse('error', -4002,'Bad file content type');
+        }
+
+        await this.createThumb(photo);
+        await this.createSmall(photo);
+
         let imagePath=photo.filename;       //zapis u bazu podataka
 
         const newPhoto =new Photo();
@@ -136,5 +157,49 @@ export class ArticleController{
         }
 
         return savedPhoto;
+    }
+
+    async createThumb(photo)
+    {
+        const originalFilePath=photo.path;
+        const fileName=photo.filename;
+
+        const destinationFilePath=StorageConfiguration.photoDestination + 'thumb/' + fileName;
+
+        await sharp(originalFilePath)
+            .resize({
+                fit:'cover',
+                width:StorageConfiguration.photoThumbSize.width,
+                height:StorageConfiguration.photoThumbSize.height,
+                background:{
+                    r:255,
+                    g:255,
+                    b:255,
+                    alpha:0.0
+                }
+            })
+            .toFile(destinationFilePath);
+    }
+
+    async createSmall(photo)
+    {
+        const originalFilePath=photo.path;
+        const fileName=photo.filename;
+
+        const destinationFilePath=StorageConfiguration.photoDestination+ 'small/'+fileName;
+
+        await sharp(originalFilePath)
+            .resize({
+                fit:'cover',
+                width:StorageConfiguration.photoSmallSize.width,
+                height:StorageConfiguration.photoSmallSize.height,
+                background:{
+                    r:255,
+                    g:255,
+                    b:255,
+                    alpha:0.0
+                }
+            })
+            .toFile(destinationFilePath);
     }
 }
