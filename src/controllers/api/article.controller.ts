@@ -1,13 +1,13 @@
 import { Body, Controller, Param, Post, Req, UploadedFile, UseInterceptors } from "@nestjs/common";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { Crud } from "@nestjsx/crud";
-import { Article } from "entities/article-entity";
+import { Article } from "src/entities/article-entity";
 import { AddArticleDto } from "src/dtos/article/add.article.dto";
 import { ArticleService } from "src/services/article/article.service";
 import {diskStorage} from "multer";
 import { StorageConfiguration } from "config/storage.configuration";
 import { PhotoService } from "src/services/photo/photo.services";
-import { Photo } from "entities/photo.entity";
+import { Photo } from "src/entities/photo.entity";
 import { ApiResponse } from "src/misc/api.response.class";
 import * as fileType from 'file-type';
 import * as fs from 'fs';
@@ -60,7 +60,7 @@ export class ArticleController{
     @UseInterceptors(
     FileInterceptor('photo',{
         storage:diskStorage({                                  //preciznije navodimo gdje se cuva fajl
-            destination:StorageConfiguration.photoDestination,           //u kom folderu ce biti sacuvane slike
+            destination:StorageConfiguration.photo.destination,           //u kom folderu ce biti sacuvane slike
             filename:(req, file, callback)=>{                   //kako ce se zvati fajl koji se upload-uje
                 let originalFileName    =   file.originalname; //dolazimo do originalnog naziva fajla
                 let optimizedOriginal   =   originalFileName.replace(/\s+/g, '-'); //regularni izraz izmedju 2 slash-a, gdje god se pojavi space karakter zamijeni ga znakom "-"
@@ -105,7 +105,7 @@ export class ArticleController{
         //Koliko fajlova prihvatamo da bude upload-ovano
         limits:{  
              files:1,
-             fileSize:StorageConfiguration.photoMaxFileSize
+             fileSize:StorageConfiguration.photo.maxFileSize
         }
     })
     )
@@ -140,8 +140,8 @@ export class ArticleController{
             return new ApiResponse('error', -4002,'Bad file content type');
         }
 
-        await this.createThumb(photo);
-        await this.createSmall(photo);
+        await this.createResizeImage(photo, StorageConfiguration.photo.resize.thumb);
+        await this.createResizeImage(photo, StorageConfiguration.photo.resize.small);
 
         let imagePath=photo.filename;       //zapis u bazu podataka
 
@@ -159,46 +159,22 @@ export class ArticleController{
         return savedPhoto;
     }
 
-    async createThumb(photo)
+
+    async createResizeImage(photo, resizeSettings)
     {
         const originalFilePath=photo.path;
         const fileName=photo.filename;
 
-        const destinationFilePath=StorageConfiguration.photoDestination + 'thumb/' + fileName;
+        const destinationFilePath=
+            StorageConfiguration.photo.destination+
+            resizeSettings.destination+
+            fileName;
 
         await sharp(originalFilePath)
             .resize({
                 fit:'cover',
-                width:StorageConfiguration.photoThumbSize.width,
-                height:StorageConfiguration.photoThumbSize.height,
-                background:{
-                    r:255,
-                    g:255,
-                    b:255,
-                    alpha:0.0
-                }
-            })
-            .toFile(destinationFilePath);
-    }
-
-    async createSmall(photo)
-    {
-        const originalFilePath=photo.path;
-        const fileName=photo.filename;
-
-        const destinationFilePath=StorageConfiguration.photoDestination+ 'small/'+fileName;
-
-        await sharp(originalFilePath)
-            .resize({
-                fit:'cover',
-                width:StorageConfiguration.photoSmallSize.width,
-                height:StorageConfiguration.photoSmallSize.height,
-                background:{
-                    r:255,
-                    g:255,
-                    b:255,
-                    alpha:0.0
-                }
+                width:resizeSettings.width,
+                height:resizeSettings.height
             })
             .toFile(destinationFilePath);
     }

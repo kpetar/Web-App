@@ -1,5 +1,5 @@
 import { Body, Controller, Post, Req } from "@nestjs/common";
-import { Administrator } from "entities/administrator.entity";
+import { Administrator } from "src/entities/administrator.entity";
 import { LoginAdministratorDto } from "src/dtos/administrator/login.administrator.dto";
 import { AdministratorService } from "src/services/administrator/administrator.service";
 import * as crypto from 'crypto';
@@ -18,8 +18,12 @@ export class AuthorizationController{
 
     
 @Post('login') //http://localhost:3000/authorization/login
-async doLogin(@Body() data:LoginAdministratorDto, @Req() request:Request):Promise<LoginInfoAdministratorDto|ApiResponse>{
-    const administrator=await this.administratorService.getByUsername(data.username);
+async doLogin(
+     @Body() data:LoginAdministratorDto,
+     @Req() request:Request)
+     :Promise<LoginInfoAdministratorDto|ApiResponse>{
+    
+     const administrator=await this.administratorService.getByUsername(data.username);
 
     if(!administrator)
     {
@@ -51,7 +55,7 @@ async doLogin(@Body() data:LoginAdministratorDto, @Req() request:Request):Promis
     //konvertujemo ga u time stamp
     const expireTimeStamp=currentTime.getTime()/1000; //da bi se dobilo u sekundama
 
-    jwtData.ext=expireTimeStamp;
+    jwtData.exp=expireTimeStamp;
     //sledece polje je ip adresa, da bismo je uzeli, ukljucimo Request(baziran na express)
     jwtData.ip=request.ip.toString();
     jwtData.userAgent=request.headers["user-agent"];

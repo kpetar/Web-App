@@ -30,8 +30,13 @@ export class AuthorizationMiddleware implements NestMiddleware{
         const tokenString=tokenParts[1];
 
         //formiraj jwt objekat
-        const jwtData:JwtDataAdministratorDto=jwt.verify(tokenString, jwtSecret);
-
+        let jwtData:JwtDataAdministratorDto;
+        try{
+        jwtData=jwt.verify(tokenString, jwtSecret);
+        }catch(e)
+        {
+            throw new HttpException('Bad token found', HttpStatus.UNAUTHORIZED);
+        }
         //u slucaju da deserijalizacija ne prodje kako treba
         if(!jwtData)
         {
@@ -59,7 +64,7 @@ export class AuthorizationMiddleware implements NestMiddleware{
         //sada provjeravamo da li je token istekao
         let currentTime=new Date();
         const currentTimeStamp=new Date().getTime()/1000;
-        if(currentTimeStamp>=jwtData.ext)
+        if(currentTimeStamp>=jwtData.exp)
         {
             throw new HttpException('Token has expired',HttpStatus.UNAUTHORIZED);
 
