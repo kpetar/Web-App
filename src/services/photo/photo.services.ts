@@ -20,4 +20,8 @@ export class PhotoService extends TypeOrmCrudService<Photo>{
         return this.photo.save(newPhoto);
     }
 
+    async deleteById(id:number)
+    {
+        return await this.photo.delete(id);
+    }
 }
