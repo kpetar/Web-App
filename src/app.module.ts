@@ -24,6 +24,7 @@ import { AuthorizationMiddleware } from './middlewares/authorization.middlewares
 import { PhotoService } from './services/photo/photo.services';
 import { FeatureService } from './services/feature/feature.service';
 import { FeatureController } from './controllers/api/feature.controller';
+import { UserService } from './services/user/user.service';
 
 
 
@@ -74,7 +75,7 @@ import { FeatureController } from './controllers/api/feature.controller';
   ],
   controllers: [AppController, AdministratorController, CategoryController, ArticleController, 
   AuthorizationController, FeatureController],
-  providers: [AdministratorService, CategoryService, ArticleService, PhotoService, FeatureService],
+  providers: [AdministratorService, CategoryService, ArticleService, PhotoService, FeatureService, UserService],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

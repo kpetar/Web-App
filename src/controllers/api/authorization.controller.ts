@@ -1,5 +1,4 @@
-import { Body, Controller, Post, Req } from "@nestjs/common";
-import { Administrator } from "src/entities/administrator.entity";
+import { Body, Controller, Post, Put, Req } from "@nestjs/common";
 import { LoginAdministratorDto } from "src/dtos/administrator/login.administrator.dto";
 import { AdministratorService } from "src/services/administrator/administrator.service";
 import * as crypto from 'crypto';
@@ -9,11 +8,15 @@ import { JwtDataAdministratorDto } from "src/dtos/administrator/jwt.data.adminis
 import  {Request} from 'express';
 import * as jwt from 'jsonwebtoken';
 import { jwtSecret } from "config/jwt.secret";
+import { UserRegistrationDto } from "src/dtos/user/user.registration.dto";
+import { User } from "src/entities/user.entity";
+import { UserService } from "src/services/user/user.service";
 
 @Controller('authorization')
 export class AuthorizationController{
     constructor(
-        public administratorService:AdministratorService
+        public administratorService:AdministratorService,
+        public userService:UserService
     ){}
 
     
@@ -72,5 +75,10 @@ async doLogin(
 
     return new Promise(resolve=>resolve(responseObject));
 }
+
+@Put('user/register') //http://localhost:3000/authorization/user/register
+userRegistration(@Body() data:UserRegistrationDto):Promise<User|ApiResponse>{
+    return this.userService.userRegistration(data);
 }
 
+}
