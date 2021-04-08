@@ -25,7 +25,7 @@ export class ArticleService extends TypeOrmCrudService<Article>{
         super(article);
     }
 
-    async getFullArticle(data:AddArticleDto):Promise<Article>{
+    async createFullArticle(data:AddArticleDto):Promise<Article|ApiResponse>{
 
         let newArticle=new Article();
 
@@ -53,14 +53,19 @@ export class ArticleService extends TypeOrmCrudService<Article>{
 
             await this.articleFeature.save(newArticleFeature);
         }
-
-        return await this.article.findOne(savedArticle.articleId,{
-            relations:[
-                "category",
-                "articleFeatures",
-                "features",
-                "articlePrices"
-            ]
+        return new Promise(async(resolve)=>{
+            await this.article.findOne(savedArticle.articleId,{
+                relations:[
+                    "category",
+                    "articleFeatures",
+                    "features",
+                    "articlePrices"
+                ]
+            })
+            .then(result=>resolve(result))
+            .catch(()=>{
+                resolve(new ApiResponse('error',-1003))
+            })
         })
 
     }

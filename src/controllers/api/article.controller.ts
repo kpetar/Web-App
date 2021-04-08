@@ -35,13 +35,13 @@ import { EditArticleDto } from "src/dtos/article/edit.article.dto";
                 eager:true
             },
             articlePrices:{
-                eager:true
+                eager:false
             },
             articleFeatures:{
-                eager:true
+                eager:false
             },
             features:{
-                eager:true
+                eager:false
             }
         },
         exclude:['updateOneBase','replaceOneBase','deleteOneBase']
@@ -54,8 +54,8 @@ export class ArticleController{
     ){}
 
     @Post('createdFull')                                // http://localhost:3000/api/article/createdFull/
-    createFullArticle(@Body() data:AddArticleDto){
-        return this.service.getFullArticle(data);
+    createFullArticle(@Body() data:AddArticleDto):Promise<Article|ApiResponse>{
+        return this.service.createFullArticle(data);
     }
 
     @Patch(':id')
