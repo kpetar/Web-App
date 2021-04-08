@@ -5,6 +5,7 @@ import { EditAdministratorDto } from 'src/dtos/administrator/edit.administrator.
 import { Administrator } from 'src/entities/administrator.entity';
 import { Repository } from 'typeorm';
 import * as crypto from 'crypto';
+import { ApiResponse } from 'src/misc/api.response.class';
 
 @Injectable()
 export class AdministratorService {
@@ -22,8 +23,13 @@ export class AdministratorService {
     //getById treba da vrati obecanje(Promise) da ce vratiti jednog administrator-a
     //parametar koji prosledjujemo je upravo taj id. TypeOrm trazi vrijednost id-a u polju
     //koje je u nasem entitetu definisano kao @PrimaryGeneratedColumn
-    getById(id:number):Promise<Administrator>{
-        return this.administrator.findOne(id);
+    async getById(id:number):Promise<Administrator|ApiResponse>{
+        let admin:Administrator=await this.administrator.findOne(id);
+        if(admin===undefined)
+        {
+            return new ApiResponse('error',-1001);
+        }
+        return admin;
     }
 
     //servis ce dobiti iz spoljasnjeg okruzenja data objekat koji ce biti AddAdministratorDto
@@ -31,7 +37,7 @@ export class AdministratorService {
     //dto -> model
     //username -> model
     //password (obrada)->passwordHash
-    add(data:AddAdministratorDto){
+    add(data:AddAdministratorDto):Promise<Administrator|ApiResponse>{
         
         const passwordHash=crypto.createHash('sha512');
         passwordHash.update(data.password);
@@ -42,12 +48,22 @@ export class AdministratorService {
         newAdministrator.username=data.username;
         newAdministrator.passwordHash=passwordHashString;
 
-        return this.administrator.save(newAdministrator);
+        return new Promise((resolve)=>{
+            this.administrator.save(newAdministrator)
+            .then(result=>resolve(result))
+            .catch(()=>{
+                resolve(new ApiResponse('error',-1001));
+            })
+        })
     }
 
-    async editById(id:number, data:EditAdministratorDto):Promise<Administrator>{
+    async editById(id:number, data:EditAdministratorDto):Promise<Administrator|ApiResponse>{
         let admin:Administrator=await this.administrator.findOne(id); 
 
+        if(admin===undefined)
+        {   
+            return new ApiResponse('error',-1001);
+        }
         const passwordHash=crypto.createHash('sha512');
         passwordHash.update(data.password);
         
