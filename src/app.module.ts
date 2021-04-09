@@ -76,13 +76,14 @@ import { UserService } from './services/user/user.service';
   controllers: [AppController, AdministratorController, CategoryController, ArticleController, 
   AuthorizationController, FeatureController],
   providers: [AdministratorService, CategoryService, ArticleService, PhotoService, FeatureService, UserService],
+  exports:[AdministratorService, UserService]
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     //consumer primjenjuje odredjeni middleware
     consumer
     .apply(AuthorizationMiddleware)
-    .exclude('auth/*')
+    .exclude('authorization/*')
     .forRoutes('api/*');
   }
 

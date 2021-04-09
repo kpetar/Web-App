@@ -2,14 +2,16 @@ import { HttpException, HttpStatus, Injectable, NestMiddleware } from "@nestjs/c
 import { NextFunction, Request, Response } from "express";
 import { AdministratorService } from "src/services/administrator/administrator.service";
 import * as jwt from 'jsonwebtoken';
-import { JwtDataAdministratorDto } from "src/dtos/administrator/jwt.data.administrator.dto";
+import { JwtDataDto } from "src/dtos/auth/jwt.data.dto";
 import { jwtSecret } from "config/jwt.secret";
+import { UserService } from "src/services/user/user.service";
 
 @Injectable()
 export class AuthorizationMiddleware implements NestMiddleware{
 
     constructor(
-        private readonly administratorService:AdministratorService
+        private readonly administratorService:AdministratorService,
+        private readonly userService:UserService
     ){}
 
     async use(req: Request, res: Response, next: NextFunction) {
@@ -30,7 +32,7 @@ export class AuthorizationMiddleware implements NestMiddleware{
         const tokenString=tokenParts[1];
 
         //formiraj jwt objekat
-        let jwtData:JwtDataAdministratorDto;
+        let jwtData:JwtDataDto;
         try{
         jwtData=jwt.verify(tokenString, jwtSecret);
         }catch(e)
@@ -55,12 +57,21 @@ export class AuthorizationMiddleware implements NestMiddleware{
         }
 
         //sada provjeravamo da li administrator postoji
-        const administrator=await this.administratorService.getById(jwtData.administratorId);
-        if(!administrator)
-        {
-            throw new HttpException('Account does not exist',HttpStatus.UNAUTHORIZED);
+        if(jwtData.role==="administrator"){
+            const administrator=await this.administratorService.getById(jwtData.id);
+            if(!administrator)
+            {
+                throw new HttpException('Account does not exist',HttpStatus.UNAUTHORIZED);
+            }
         }
-
+        else if(jwtData.role==="user")
+        {
+            const user=await this.userService.getById(jwtData.id);
+            if(!user)
+            {
+                throw new HttpException('Account does not exist',HttpStatus.UNAUTHORIZED);
+            }
+        }
         //sada provjeravamo da li je token istekao
         let currentTime=new Date();
         const currentTimeStamp=new Date().getTime()/1000;

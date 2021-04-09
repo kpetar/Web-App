@@ -10,7 +10,7 @@ import { ApiResponse } from 'src/misc/api.response.class';
 export class UserService {
     constructor(@InjectRepository(User) private readonly user:Repository<User>){}
 
-    userRegistration(data:UserRegistrationDto):Promise<User|ApiResponse>
+    async userRegistration(data:UserRegistrationDto):Promise<User|ApiResponse>
     {
         const passwordHash=crypto.createHash('sha512');
         passwordHash.update(data.password);
@@ -31,6 +31,16 @@ export class UserService {
                 resolve(new ApiResponse('error', -6001,'This account has cannot been created'));
             })
         })
+    }
+
+    async getById(id:number){
+        return await this.user.findOne(id);
+    }
+
+    async getByEmail(email:string){
+        return await this.user.findOne({
+            email:email
+        });
     }
     
 }
