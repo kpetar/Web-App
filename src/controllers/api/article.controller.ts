@@ -45,8 +45,25 @@ import { AllowToRoles } from "src/misc/allow.to.roles.descriptor";
             features:{
                 eager:false
             }
+        }
+    },
+    routes:{
+        only:[
+            "getOneBase",
+            "getManyBase"
+        ],
+        getOneBase:{
+            decorators:[
+                UseGuards(RoleCheckerGuard),
+                AllowToRoles('administrator','user')
+            ]
         },
-        exclude:['updateOneBase','replaceOneBase','deleteOneBase']
+        getManyBase:{
+            decorators:[
+                UseGuards(RoleCheckerGuard),
+                AllowToRoles('administrator','user')
+            ]
+        }
     }
 })
 export class ArticleController{
@@ -55,7 +72,7 @@ export class ArticleController{
         public photoService:PhotoService                //pomocu njega insert-ujemo novi photo
     ){}
 
-    @Post('createdFull') 
+    @Post() 
     @UseGuards(RoleCheckerGuard)
     @AllowToRoles('administrator')                               // http://localhost:3000/api/article/createdFull/
     createFullArticle(@Body() data:AddArticleDto):Promise<Article|ApiResponse>{

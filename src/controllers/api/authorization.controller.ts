@@ -78,7 +78,7 @@ async doAdministratorLogin(
     return new Promise(resolve=>resolve(responseObject));
 }
 
-@Put('user/register') //http://localhost:3000/authorization/user/register
+@Post('user/register') //http://localhost:3000/authorization/user/register
 userRegistration(@Body() data:UserRegistrationDto):Promise<User|ApiResponse>{
     return this.userService.userRegistration(data);
 }
