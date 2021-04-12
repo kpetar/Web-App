@@ -25,6 +25,8 @@ import { PhotoService } from './services/photo/photo.services';
 import { FeatureService } from './services/feature/feature.service';
 import { FeatureController } from './controllers/api/feature.controller';
 import { UserService } from './services/user/user.service';
+import { CartController } from './controllers/api/user.cart.controller';
+import { CartService } from './services/cart/cart.service';
 
 
 
@@ -74,9 +76,9 @@ import { UserService } from './services/user/user.service';
     //ovoj f-ji prosledjujemo spisak svih entiteta za koje treba automatski da napravi repozitorijume
   ],
   controllers: [AppController, AdministratorController, CategoryController, ArticleController, 
-  AuthorizationController, FeatureController],
+  AuthorizationController, FeatureController, CartController],
   providers: [AdministratorService, CategoryService, ArticleService, PhotoService, FeatureService, UserService],
-  exports:[AdministratorService, UserService]
+  exports:[AdministratorService, UserService, CartService]
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
