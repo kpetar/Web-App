@@ -11,7 +11,7 @@ export class CartService{
         
                 ){}
     
-    async getLatestActiveCartByUserId(userId:number)
+    async getLatestActiveCartByUserId(userId:number):Promise<Cart|null>
     {
         const carts=await this.cart.find({
             where:{
@@ -47,7 +47,7 @@ export class CartService{
         return await this.cart.save(newCart);
     }
 
-    async addArticleToCart(articleId:number, cartId:number, quantity:number)
+    async addArticleToCart(articleId:number, cartId:number, quantity:number):Promise<Cart>
     {
         let record:CartArticle=await this.cartArticle.findOne({
             cartId:cartId,
@@ -65,7 +65,9 @@ export class CartService{
         {
             record.quantity+=quantity;
         }
-        return await this.cartArticle.save(record);
+        await this.cartArticle.save(record);
+
+        return await this.getById(cartId);
     }
 
     async getById(cartId:number)

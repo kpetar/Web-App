@@ -77,8 +77,8 @@ import { CartService } from './services/cart/cart.service';
   ],
   controllers: [AppController, AdministratorController, CategoryController, ArticleController, 
   AuthorizationController, FeatureController, CartController],
-  providers: [AdministratorService, CategoryService, ArticleService, PhotoService, FeatureService, UserService],
-  exports:[AdministratorService, UserService, CartService]
+  providers: [AdministratorService, CategoryService, ArticleService, PhotoService, FeatureService, UserService, CartService],
+  exports:[AdministratorService, UserService]
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
