@@ -27,6 +27,7 @@ import { FeatureController } from './controllers/api/feature.controller';
 import { UserService } from './services/user/user.service';
 import { CartController } from './controllers/api/user.cart.controller';
 import { CartService } from './services/cart/cart.service';
+import { OrderService } from './services/order/order.service';
 
 
 
@@ -77,7 +78,7 @@ import { CartService } from './services/cart/cart.service';
   ],
   controllers: [AppController, AdministratorController, CategoryController, ArticleController, 
   AuthorizationController, FeatureController, CartController],
-  providers: [AdministratorService, CategoryService, ArticleService, PhotoService, FeatureService, UserService, CartService],
+  providers: [AdministratorService, CategoryService, ArticleService, PhotoService, FeatureService, UserService, CartService, OrderService],
   exports:[AdministratorService, UserService]
 })
 export class AppModule implements NestModule {
