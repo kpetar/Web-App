@@ -57,6 +57,8 @@ export class CartController{
       }
 
       @Post('makeAnOrder')
+      @UseGuards(RoleCheckerGuard)
+      @AllowToRoles('user')
       async makeAnOrder(@Req() req:Request):Promise<Order|ApiResponse>
       {
           const cart=await this.getActiveCartForUserId(req.token.id);

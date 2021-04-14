@@ -1,3 +1,4 @@
+import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { StorageConfiguration } from 'config/storage.configuration';
@@ -11,6 +12,10 @@ async function bootstrap() {
     maxAge:StorageConfiguration.photo.maxAge,
     index:false
   })
+
+  app.useGlobalPipes(new ValidationPipe({
+
+  }));
 
   await app.listen(3000);
 }
