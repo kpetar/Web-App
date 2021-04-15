@@ -5,9 +5,10 @@ import { Article } from "src/entities/article-entity";
 import { ArticleFeature } from "src/entities/article-feature.entity";
 import { ArticlePrice } from "src/entities/article-price.entity";
 import { AddArticleDto } from "src/dtos/article/add.article.dto";
-import { Repository } from "typeorm";
+import { In, Repository } from "typeorm";
 import { EditArticleDto } from "src/dtos/article/edit.article.dto";
 import { ApiResponse } from "src/misc/api.response.class";
+import { SearchArticleDto } from "src/dtos/article/search.article.dto";
 
 @Injectable()
 export class ArticleService extends TypeOrmCrudService<Article>{
@@ -149,7 +150,112 @@ export class ArticleService extends TypeOrmCrudService<Article>{
 
 
 
+     }
+
+     async searchArticle(data:SearchArticleDto):Promise<Article[]>
+     {
+        const builder=await this.article.createQueryBuilder("article");
+
+        builder.innerJoinAndSelect("article.articlePrices", "ap");
+        builder.leftJoin("article.articleFeatures", "af", 
+        "ap.createdAt=(SELECT MAX(ap.created_at) FROM article_price AS ap WHERE ap.article_id=article.article_id)"
+        );
+
+        builder.where('article.categoryId=:categoryId',{
+            categoryId:data.categoryId
+        });
+
+        //Ako postoji keywords i ukoliko im je duzina veca od 0
+        if(data.keywords && data.keywords.length>0)
+        {
+            builder.andWhere(
+            '(article.name LIKE :kw OR article.excerpt LIKE :kw OR article.description LIKE :kw)', {
+                kw:'%' + data.keywords + '%'
+            });
         }
+
+        //Ukoliko postoji vrijednost minPrice
+        if(data.minPrice && typeof data.minPrice==='number')
+        {
+            builder.andWhere('ap.price>=:min', {
+                min:data.minPrice
+            })
+        }
+
+        //Ukolko postoji vrijednost maxPrice
+        if(data.maxPrice && typeof data.maxPrice==='number')
+        {
+            builder.andWhere('ap.price<=:max',{
+                max:data.maxPrice
+            })
+        }
+
+        //IN - jedna vrijednost iz niza string-ova
+        if(data.features && data.features.length>0)
+        {
+            for(const feature of data.features)
+            {
+                builder.andWhere('af.featureId=:fId AND af.value IN (:fValues)',{
+                    fId:feature.featureId,
+                    fValues:feature.value
+                });
+            }
+        }
+
+        //Pretpostavka da je orderBy='name' i orderDirection='ASC'
+        let orderBy='article.name';
+        let orderDirection:"ASC"|"DESC"="ASC";
+
+        if(data.orderBy)
+        {
+            orderBy=data.orderBy;
+            if(orderBy==='name')
+            {
+                orderBy='article.name';
+            }
+            if(orderBy==='price')
+            {
+                orderBy='ap.price';
+            }
+        }
+        if(data.orderDirection)
+        {
+            orderDirection=data.orderDirection;
+        }
+        builder.orderBy(orderBy, orderDirection);
+
+        let page=0;
+        let itemsPerPage=5|10|15|20|25;
+
+        if(data.page && typeof data.page==='number')
+        {
+            page=data.page;
+        }
+        if(data.itemsPerPage && typeof data.itemsPerPage==='number')
+        {
+            itemsPerPage=data.itemsPerPage;
+        }
+        builder.skip(page*itemsPerPage);
+        builder.take(itemsPerPage);
+
+        //Uzeti odredjene items-e 
+        let articleIds=await (await builder.getMany()).map(article=>article.articleId);
+
+        return await this.article.find({
+            where:{
+                articleId:In(articleIds)
+            },
+            relations:[ 
+                "category",
+                "articleFeatures",
+                "features",
+                "articlePrices"
+            ]
+        })
+        
+
+     }
+    
 
         
 
