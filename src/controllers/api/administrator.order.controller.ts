@@ -31,6 +31,6 @@ export class AdministratorOrderController{
     async changeStatus(@Param('id') orderId:number, @Body() data:ChangeOrderStatusDto):Promise<Order|ApiResponse>
     {
         
-        return await this.orderService.changeStatus(orderId, data.newStatus);
+        return await this.orderService.changeStatus(orderId, data);
     }
 }

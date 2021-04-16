@@ -62,7 +62,7 @@ export class OrderService{
         });
     }
 
-    async changeStatus(orderId:number, newStatus: "rejected" | "accepted" | "shipped" | "pending"):Promise<Order|ApiResponse>
+    async changeStatus(orderId:number, data:ChangeOrderStatusDto):Promise<Order|ApiResponse>
     {
         const order=await this.getById(orderId);
         if(!order)
@@ -70,7 +70,7 @@ export class OrderService{
             return new ApiResponse('error', -9001, "Order not found!");
         }
 
-        order.status=newStatus;
+        order.status=data.newStatus;
 
         await this.order.save(order);
 
