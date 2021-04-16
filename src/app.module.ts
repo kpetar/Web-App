@@ -28,6 +28,7 @@ import { UserService } from './services/user/user.service';
 import { CartController } from './controllers/api/user.cart.controller';
 import { CartService } from './services/cart/cart.service';
 import { OrderService } from './services/order/order.service';
+import { AdministratorOrderController } from './controllers/api/administrator.order.controller';
 
 
 
@@ -77,7 +78,7 @@ import { OrderService } from './services/order/order.service';
     //ovoj f-ji prosledjujemo spisak svih entiteta za koje treba automatski da napravi repozitorijume
   ],
   controllers: [AppController, AdministratorController, CategoryController, ArticleController, 
-  AuthorizationController, FeatureController, CartController],
+  AuthorizationController, FeatureController, CartController, AdministratorOrderController],
   providers: [AdministratorService, CategoryService, ArticleService, PhotoService, FeatureService, UserService, CartService, OrderService],
   exports:[AdministratorService, UserService]
 })
