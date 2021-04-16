@@ -49,7 +49,7 @@ export class OrderService{
 
     }
 
-    async getById(orderId:number):Promise<Order|ApiResponse>
+    async getById(orderId:number)
     {
         return await this.order.findOne(orderId,{
             relations:[
@@ -71,6 +71,8 @@ export class OrderService{
         }
 
         order.status=newStatus;
+
+        await this.order.save(order);
 
         return order;
     }
