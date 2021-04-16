@@ -62,7 +62,7 @@ export class OrderService{
         });
     }
 
-    async changeStatus(orderId:number, newStatus: "rejected" | "accepted" | "shipped" | "pending")
+    async changeStatus(orderId:number, newStatus: "rejected" | "accepted" | "shipped" | "pending"):Promise<Order|ApiResponse>
     {
         const order=await this.getById(orderId);
         if(!order)
