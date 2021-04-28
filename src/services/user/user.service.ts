@@ -6,12 +6,15 @@ import { Repository } from 'typeorm';
 import * as crypto from 'crypto';
 import { ApiResponse } from 'src/misc/api.response.class';
 import { UserToken } from 'src/entities/user-token.entity';
+import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
 
 @Injectable()
-export class UserService {
+export class UserService extends TypeOrmCrudService<User> {
     constructor(@InjectRepository(User) private readonly user:Repository<User>,
                 @InjectRepository(UserToken) private readonly userToken:Repository<UserToken>            
-    ){}
+    ){
+        super(user);
+    }
 
     async userRegistration(data:UserRegistrationDto):Promise<User|ApiResponse>
     {
@@ -65,7 +68,9 @@ export class UserService {
 
     async invalidateToken(token:string):Promise<UserToken|ApiResponse>
     {
-        const userToken=await this.getUserToken(token);
+        const userToken=await this.userToken.findOne({
+            token:token
+        })
 
         if(!userToken)
         {
@@ -83,7 +88,7 @@ export class UserService {
     {
         const userTokens=await this.userToken.find({userId:userId});
 
-        let results=[];
+        const results=[];
 
         for(const userToken of userTokens)
         {

@@ -13,15 +13,13 @@ import {
     @Column({
         type:"int",
         name: "user_id",
-        unique: true,
         unsigned: true
       })
       userId: number;
   
     @Column( {
       type:"timestamp",
-      name: "created_at",
-      default: () => "CURRENT_TIMESTAMP",
+      name: "created_at"
     })
     createdAt: Date;
 

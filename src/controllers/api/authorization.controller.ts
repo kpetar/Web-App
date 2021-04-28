@@ -5,7 +5,7 @@ import * as crypto from 'crypto';
 import { ApiResponse } from "src/misc/api.response.class";
 import { LoginInfoDto } from "src/dtos/auth/login.info.dto";
 import { JwtDataDto } from "src/dtos/auth/jwt.data.dto";
-import  {Request} from 'express';
+import  {json, Request} from 'express';
 import * as jwt from 'jsonwebtoken';
 import { jwtSecret } from "config/jwt.secret";
 import { UserRegistrationDto } from "src/dtos/user/user.registration.dto";
@@ -54,15 +54,7 @@ async doAdministratorLogin(
     jwtData.id=administrator.administratorId;
     jwtData.role="administrator";
     jwtData.identity=administrator.username;
-    
-    //da bi dosli do odredjenog tokena, trebaju nam trenutni datum i vrijeme
-    let currentTime=new Date();
-    currentTime.setDate(currentTime.getDate()+14); // trenutno vrijeme +14 dana
-    
-    //konvertujemo ga u time stamp
-    const expireTimeStamp=currentTime.getTime()/1000; //da bi se dobilo u sekundama
-
-    jwtData.exp=expireTimeStamp;
+    jwtData.exp=this.getDatePlus(60*5);
     //sledece polje je ip adresa, da bismo je uzeli, ukljucimo Request(baziran na express)
     jwtData.ip=request.ip.toString();
     jwtData.userAgent=request.headers["user-agent"];
@@ -118,9 +110,6 @@ async doUserLogin(
     jwtData.id=user.userId;
     jwtData.role="user";
     jwtData.identity=user.email;
-    
-    
-
     jwtData.exp=this.getDatePlus(60*5);
     //sledece polje je ip adresa, da bismo je uzeli, ukljucimo Request(baziran na express)
     jwtData.ip=request.ip.toString();
@@ -134,7 +123,7 @@ async doUserLogin(
     jwtRefreshData.id=jwtData.id;
     jwtRefreshData.role=jwtData.role;
     jwtRefreshData.identity=jwtData.identity;
-    jwtRefreshData.exp=this.getDatePlus(60*60*24*30);
+    jwtRefreshData.exp=this.getDatePlus(60*60*24*31);
     jwtRefreshData.ip=jwtData.ip;
     jwtRefreshData.userAgent=jwtData.userAgent;
 
@@ -146,28 +135,17 @@ async doUserLogin(
         token,
         refreshToken,
         this.getIsoData(jwtRefreshData.exp)
-    )
+    );
 
-    await this.userService.addToken(user.userId, refreshToken,this.getDatabaseDateFormat(this.getIsoData(jwtRefreshData.exp)));
+    await this.userService.addToken(
+        user.userId,
+        refreshToken,
+        this.getDatabaseDateFormat(this.getIsoData(jwtRefreshData.exp))
+    );
 
     return new Promise(resolve=>resolve(responseObject));
 }
 
-private getDatePlus(numbersOfSeconds:number):number
-{
-    return new Date().getTime()/1000 + numbersOfSeconds;
-}
-
-private getIsoData(timestamp:number):string // u milisekundama
-{
-    const currentDate=new Date();
-    currentDate.setTime(timestamp*1000);
-    return currentDate.toISOString();
-}
-
-private getDatabaseDateFormat(isoFormat:string):string{
-    return isoFormat.substr(0,19).replace('T',' ');
-}
 
 
 @Post('user/refresh')
@@ -210,8 +188,7 @@ async userTokenRefresh(@Req() req:Request, @Body() data:UserRefreshTokenDto):Pro
             throw new HttpException('Bad token found', HttpStatus.UNAUTHORIZED);
         }
 
-        const ip=req.ip.toString();
-        if(jwtRefreshData.ip!==ip)
+        if(jwtRefreshData.ip!==req.ip.toString())
         {
             throw new HttpException('Bad token found',HttpStatus.UNAUTHORIZED);
         }
@@ -221,7 +198,7 @@ async userTokenRefresh(@Req() req:Request, @Body() data:UserRefreshTokenDto):Pro
             throw new HttpException('Bad token found',HttpStatus.UNAUTHORIZED);
         }
 
-        const jwtData=new JwtRefreshDto();
+        const jwtData=new JwtDataDto();
         jwtData.role=jwtRefreshData.role;
         jwtData.id=jwtRefreshData.id;
         jwtData.identity=jwtRefreshData.identity;
@@ -231,15 +208,33 @@ async userTokenRefresh(@Req() req:Request, @Body() data:UserRefreshTokenDto):Pro
 
 
         let token:string=jwt.sign(jwtData.toPlainObject(),jwtSecret);
+
         const responseObject=new LoginInfoDto(
             jwtData.id,
             jwtData.identity,
             token,
             data.token,
             this.getIsoData(jwtRefreshData.exp)
-        )
+        );
+
 
         return responseObject;
+}
+
+private getDatePlus(numbersOfSeconds:number):number
+{
+    return (new Date()).getTime()/1000 + numbersOfSeconds;
+}
+
+private getIsoData(timestamp:number):string // u milisekundama
+{
+    const currentDate=new Date();
+    currentDate.setTime(timestamp*1000).toString();
+    return currentDate.toISOString();
+}
+
+private getDatabaseDateFormat(isoFormat:string):string{
+    return isoFormat.substr(0,19).replace('T',' ');
 }
 
 
