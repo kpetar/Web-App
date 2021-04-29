@@ -30,6 +30,6 @@ export class UserRegistrationDto{
 
     @Validator.IsNotEmpty()
     @Validator.IsString()
-    @Validator.Length(2,512)
+    @Validator.Length(10,512)
     postalAddress:string;
 }

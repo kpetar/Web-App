@@ -249,7 +249,7 @@ export class ArticleController{
     @Post('searchArticle')
     @UseGuards(RoleCheckerGuard)
     @AllowToRoles('user', 'administrator')
-    async search(@Body() data:SearchArticleDto):Promise<Article[]>
+    async search(@Body() data:SearchArticleDto):Promise<Article[]|ApiResponse>
     {
         return await this.service.searchArticle(data);
     }

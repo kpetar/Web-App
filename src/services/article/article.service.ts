@@ -152,7 +152,7 @@ export class ArticleService extends TypeOrmCrudService<Article>{
 
      }
 
-     async searchArticle(data:SearchArticleDto):Promise<Article[]>
+     async searchArticle(data:SearchArticleDto):Promise<Article[]|ApiResponse>
      {
         const builder=await this.article.createQueryBuilder("article");
 
@@ -240,6 +240,12 @@ export class ArticleService extends TypeOrmCrudService<Article>{
 
         //Uzeti odredjene items-e 
         let articleIds=await (await builder.getMany()).map(article=>article.articleId);
+
+
+        if(articleIds.length===0)
+        {
+            return new ApiResponse("ok", 0, "No articles found!");
+        }
 
         return await this.article.find({
             where:{
