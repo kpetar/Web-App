@@ -5,7 +5,7 @@ import * as crypto from 'crypto';
 import { ApiResponse } from "src/misc/api.response.class";
 import { LoginInfoDto } from "src/dtos/auth/login.info.dto";
 import { JwtDataDto } from "src/dtos/auth/jwt.data.dto";
-import  {json, Request} from 'express';
+import  {Request} from 'express';
 import * as jwt from 'jsonwebtoken';
 import { jwtSecret } from "config/jwt.secret";
 import { UserRegistrationDto } from "src/dtos/user/user.registration.dto";
@@ -159,7 +159,7 @@ async userTokenRefresh(@Req() req:Request, @Body() data:UserRefreshTokenDto):Pro
 
     if(userToken.isValid===0)
     {
-        return new ApiResponse('error', -10003, 'The token is no longer available!');
+        return new ApiResponse('error', -10003, 'The token is no longer valid!');
     }
 
     const currentDate=new Date();
@@ -214,9 +214,10 @@ async userTokenRefresh(@Req() req:Request, @Body() data:UserRefreshTokenDto):Pro
             jwtData.identity,
             token,
             data.token,
-            this.getIsoData(jwtRefreshData.exp)
+            this.getIsoData(jwtData.exp)
         );
 
+        
 
         return responseObject;
 }
@@ -226,10 +227,10 @@ private getDatePlus(numbersOfSeconds:number):number
     return (new Date()).getTime()/1000 + numbersOfSeconds;
 }
 
-private getIsoData(timestamp:number):string // u milisekundama
+private getIsoData(timestamp:number):string 
 {
     const currentDate=new Date();
-    currentDate.setTime(timestamp*1000).toString();
+    currentDate.setTime(timestamp*1000);
     return currentDate.toISOString();
 }
 
