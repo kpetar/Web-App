@@ -38,13 +38,13 @@ import { SearchArticleDto } from "src/dtos/article/search.article.dto";
                 eager:true
             },
             articlePrices:{
-                eager:false
+                eager:true
             },
             articleFeatures:{
-                eager:false
+                eager:true
             },
             features:{
-                eager:false
+                eager:true
             }
         }
     },
@@ -88,7 +88,7 @@ export class ArticleController{
         return this.service.editFullArticle(id,data);
     }
 
-    @Post(':id/uploadPhoto') 
+    @Post(':id/uploadPhoto/') 
     @UseGuards(RoleCheckerGuard)
     @AllowToRoles('administrator')                           //http://localhost:3000/api/article/:id/uploadPhoto
     @UseInterceptors(
@@ -96,9 +96,10 @@ export class ArticleController{
         storage:diskStorage({                                  //preciznije navodimo gdje se cuva fajl
             destination:StorageConfiguration.photo.destination,           //u kom folderu ce biti sacuvane slike
             filename:(req, file, callback)=>{                   //kako ce se zvati fajl koji se upload-uje
-                let originalFileName    =   file.originalname; //dolazimo do originalnog naziva fajla
+                let originalFileName:string    =   file.originalname; //dolazimo do originalnog naziva fajla
                 let optimizedOriginal   =   originalFileName.replace(/\s+/g, '-'); //regularni izraz izmedju 2 slash-a, gdje god se pojavi space karakter zamijeni ga znakom "-"
-                
+                optimizedOriginal=optimizedOriginal.replace(/[^A-z0-9\.\-]/g, '');
+
                 let currentDate =   new Date();                 //trenutni datum
                 let datePart    =   '';
                 datePart        =   datePart+currentDate.getFullYear().toString();
@@ -112,6 +113,7 @@ export class ArticleController{
                 .join('');
 
                 let fileName    =   datePart + '-' + randomPart + '-' + optimizedOriginal;
+                fileName=fileName.toLocaleLowerCase();
 
                 callback(null, fileName);
 
@@ -119,14 +121,14 @@ export class ArticleController{
         }),
         fileFilter: (req,file,callback)=>{
             //Provjera ekstenzije .png .jpg
-            if(!file.originalname.match(/\.(jpg|png)$/))
+            if(!file.originalname.toLowerCase().match(/\.(jpg|png)$/))
             {
                 req.fileFilterError='Bad file extension';
                 callback(null,false);
                 return;
             }
             //Provjera tipa sadrzaja: image/jpeg, image/png
-            if(!(file.originalname.includes('jpeg')||file.mimetype.includes('png')))
+            if(!(file.mimetype.includes('jpeg')||file.mimetype.includes('png')))
             {
                 req.fileFilterError='Bad file content';
                 callback(null, false);
@@ -145,8 +147,6 @@ export class ArticleController{
     )
     async uploadPhoto(@Param('id') articleId:number, @UploadedFile() photo, @Req() req):Promise<Photo|ApiResponse>
     {
-        
-
         //Da li u ovom req postoji fileFilterError
         if(req.fileFilterError)
         {
@@ -177,9 +177,7 @@ export class ArticleController{
         await this.createResizeImage(photo, StorageConfiguration.photo.resize.thumb);
         await this.createResizeImage(photo, StorageConfiguration.photo.resize.small);
 
-        let imagePath=photo.filename;       //zapis u bazu podataka
-
-        const newPhoto =new Photo();
+        const newPhoto:Photo =new Photo();
         newPhoto.articleId=articleId;
         newPhoto.imagePath=photo.filename;
 

@@ -43,8 +43,8 @@ export class SearchArticleDto{
     features:AddArticleFeaturesDto[]
 
     @Validator.IsOptional()
-    @Validator.IsIn(['name','price'])
-    orderBy:'name'|'price';
+    @Validator.IsIn(["name","price"])
+    orderBy:"name"|"price";
 
     @Validator.IsOptional()
     @Validator.IsIn(["ASC","DESC"])

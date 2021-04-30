@@ -1,4 +1,4 @@
-import { Inject, Injectable } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { TypeOrmCrudService } from "@nestjsx/crud-typeorm";
 import { Article } from "src/entities/article-entity";
@@ -54,20 +54,16 @@ export class ArticleService extends TypeOrmCrudService<Article>{
 
             await this.articleFeature.save(newArticleFeature);
         }
-        return new Promise(async(resolve)=>{
-            await this.article.findOne(savedArticle.articleId,{
+
+        return await this.article.findOne(savedArticle.articleId,{
                 relations:[
                     "category",
                     "articleFeatures",
                     "features",
-                    "articlePrices"
+                    "articlePrices",
+                    "photos"
                 ]
-            })
-            .then(result=>resolve(result))
-            .catch(()=>{
-                resolve(new ApiResponse('error',-1003))
-            })
-        })
+        });
 
     }
 
@@ -156,10 +152,11 @@ export class ArticleService extends TypeOrmCrudService<Article>{
      {
         const builder=await this.article.createQueryBuilder("article");
 
-        builder.innerJoinAndSelect("article.articlePrices", "ap");
-        builder.leftJoin("article.articleFeatures", "af", 
-        "ap.createdAt=(SELECT MAX(ap.created_at) FROM article_price AS ap WHERE ap.article_id=article.article_id)"
-        );
+        builder.innerJoinAndSelect("article.articlePrices", "ap", "ap.createdAt=(SELECT MAX(ap.created_at) FROM article_price AS ap WHERE ap.article_id=article.article_id)");
+        
+        builder.leftJoinAndSelect("article.articleFeatures","af");
+        builder.leftJoinAndSelect("article.features","features");
+        builder.leftJoinAndSelect("article.photos","photos");
 
         builder.where('article.categoryId=:categoryId',{
             categoryId:data.categoryId
@@ -209,14 +206,16 @@ export class ArticleService extends TypeOrmCrudService<Article>{
         if(data.orderBy)
         {
             orderBy=data.orderBy;
-            if(orderBy==='name')
-            {
-                orderBy='article.name';
-            }
+
             if(orderBy==='price')
             {
                 orderBy='ap.price';
             }
+            if(orderBy==='name')
+            {
+                orderBy='article.name';
+            }
+            
         }
         if(data.orderDirection)
         {
@@ -225,7 +224,7 @@ export class ArticleService extends TypeOrmCrudService<Article>{
         builder.orderBy(orderBy, orderDirection);
 
         let page=0;
-        let itemsPerPage=5|10|15|20|25;
+        let itemsPerPage:5|10|15|20|25=15;
 
         if(data.page && typeof data.page==='number')
         {
@@ -239,27 +238,15 @@ export class ArticleService extends TypeOrmCrudService<Article>{
         builder.take(itemsPerPage);
 
         //Uzeti odredjene items-e 
-        let articleIds=await (await builder.getMany()).map(article=>article.articleId);
+        let articles=await builder.getMany();
 
-
-        if(articleIds.length===0)
+        if(articles.length===0)
         {
-            return new ApiResponse("ok", 0, "No articles found!");
-        }
+            return new ApiResponse("ok",0,"No articles found for these search");
+        }        
 
-        return await this.article.find({
-            where:{
-                articleId:In(articleIds)
-            },
-            relations:[ 
-                "category",
-                "articleFeatures",
-                "features",
-                "articlePrices"
-            ]
-        })
-        
 
+        return articles;
      }
     
 

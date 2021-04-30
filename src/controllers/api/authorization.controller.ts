@@ -15,7 +15,7 @@ import { LoginUserDto } from "src/dtos/user/login.user.dto";
 import { JwtRefreshDto } from "src/dtos/auth/jwt.refresh.dto";
 import { UserRefreshTokenDto } from "src/dtos/auth/user.refresh.token.dto";
 
-@Controller('authorization/')
+@Controller('authorization')
 export class AuthorizationController{
     constructor(
         public administratorService:AdministratorService,
