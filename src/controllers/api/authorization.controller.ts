@@ -5,7 +5,7 @@ import * as crypto from 'crypto';
 import { ApiResponse } from "src/misc/api.response.class";
 import { LoginInfoDto } from "src/dtos/auth/login.info.dto";
 import { JwtDataDto } from "src/dtos/auth/jwt.data.dto";
-import  {Request} from 'express';
+import  {Request} from "express";
 import * as jwt from 'jsonwebtoken';
 import { jwtSecret } from "config/jwt.secret";
 import { UserRegistrationDto } from "src/dtos/user/user.registration.dto";
@@ -15,7 +15,7 @@ import { LoginUserDto } from "src/dtos/user/login.user.dto";
 import { JwtRefreshDto } from "src/dtos/auth/jwt.refresh.dto";
 import { UserRefreshTokenDto } from "src/dtos/auth/user.refresh.token.dto";
 
-@Controller('authorization')
+@Controller('authorization/')
 export class AuthorizationController{
     constructor(
         public administratorService:AdministratorService,
@@ -75,8 +75,8 @@ async doAdministratorLogin(
 }
 
 @Post('user/register') //http://localhost:3000/authorization/user/register
-userRegistration(@Body() data:UserRegistrationDto):Promise<User|ApiResponse>{
-    return this.userService.userRegistration(data);
+async userRegistration(@Body() data:UserRegistrationDto):Promise<User|ApiResponse>{
+    return await this.userService.userRegistration(data);
 }
 
 @Post('user/login') //http://localhost:3000/authorization/user/login
@@ -110,7 +110,7 @@ async doUserLogin(
     jwtData.id=user.userId;
     jwtData.role="user";
     jwtData.identity=user.email;
-    jwtData.exp=this.getDatePlus(60*5);
+    jwtData.exp=this.getDatePlus(60*1);
     //sledece polje je ip adresa, da bismo je uzeli, ukljucimo Request(baziran na express)
     jwtData.ip=request.ip.toString();
     jwtData.userAgent=request.headers["user-agent"];
@@ -169,12 +169,12 @@ async userTokenRefresh(@Req() req:Request, @Body() data:UserRefreshTokenDto):Pro
     if(expireDate.getTime()<currentDate.getTime())
     {
         return new ApiResponse('error', -10004, 'The token has expired!');
-
     } 
 
     //do tokena se dolazi verifikacijom
 
     let jwtRefreshData:JwtRefreshDto;
+
     try{
         jwtRefreshData=jwt.verify(data.token, jwtSecret);
     }
@@ -183,43 +183,41 @@ async userTokenRefresh(@Req() req:Request, @Body() data:UserRefreshTokenDto):Pro
             throw new HttpException('Bad token found', HttpStatus.UNAUTHORIZED);
         }
 
-        if(!jwtRefreshData)
-        {
-            throw new HttpException('Bad token found', HttpStatus.UNAUTHORIZED);
-        }
+    if(!jwtRefreshData)
+    {
+        throw new HttpException('Bad token found', HttpStatus.UNAUTHORIZED);
+    }
 
-        if(jwtRefreshData.ip!==req.ip.toString())
-        {
-            throw new HttpException('Bad token found',HttpStatus.UNAUTHORIZED);
-        }
+    if(jwtRefreshData.ip!==req.ip.toString())
+    {
+        throw new HttpException('Bad token found',HttpStatus.UNAUTHORIZED);
+    }
 
-        if(jwtRefreshData.userAgent!==req.headers["user-agent"])
-        {
-            throw new HttpException('Bad token found',HttpStatus.UNAUTHORIZED);
-        }
+    if(jwtRefreshData.userAgent!==req.headers["user-agent"])
+    {
+        throw new HttpException('Bad token found',HttpStatus.UNAUTHORIZED);
+    }
 
-        const jwtData=new JwtDataDto();
-        jwtData.role=jwtRefreshData.role;
-        jwtData.id=jwtRefreshData.id;
-        jwtData.identity=jwtRefreshData.identity;
-        jwtData.exp=this.getDatePlus(60*5);
-        jwtData.ip=jwtRefreshData.ip;
-        jwtData.userAgent=jwtRefreshData.userAgent;
+    const jwtData=new JwtDataDto();
+    jwtData.role=jwtRefreshData.role;
+    jwtData.id=jwtRefreshData.id;
+    jwtData.identity=jwtRefreshData.identity;
+    jwtData.exp=this.getDatePlus(60*5);
+    jwtData.ip=jwtRefreshData.ip;
+    jwtData.userAgent=jwtRefreshData.userAgent;
 
 
-        let token:string=jwt.sign(jwtData.toPlainObject(),jwtSecret);
+    let token:string=jwt.sign(jwtData.toPlainObject(),jwtSecret);
 
-        const responseObject=new LoginInfoDto(
-            jwtData.id,
-            jwtData.identity,
-            token,
-            data.token,
-            this.getIsoData(jwtData.exp)
-        );
+    const responseObject=new LoginInfoDto(
+        jwtData.id,
+        jwtData.identity,
+        token,
+        data.token,
+        this.getIsoData(jwtData.exp)
+    );
 
-        
-
-        return responseObject;
+    return responseObject;
 }
 
 private getDatePlus(numbersOfSeconds:number):number

@@ -10,8 +10,8 @@ import { UserService } from "src/services/user/user.service";
 export class AuthorizationMiddleware implements NestMiddleware{
 
     constructor(
-        private readonly administratorService:AdministratorService,
-        private readonly userService:UserService
+        public readonly administratorService:AdministratorService,
+        public readonly userService:UserService
     ){}
 
     async use(req: Request, res: Response, next: NextFunction) {
@@ -33,6 +33,7 @@ export class AuthorizationMiddleware implements NestMiddleware{
 
         //formiraj jwt objekat
         let jwtData:JwtDataDto;
+
         try{
         jwtData=jwt.verify(tokenString, jwtSecret);
         }catch(e)
@@ -45,8 +46,7 @@ export class AuthorizationMiddleware implements NestMiddleware{
             throw new HttpException('Bad token found', HttpStatus.UNAUTHORIZED);
         }
 
-        const ip=req.ip.toString();
-        if(jwtData.ip!==ip)
+        if(jwtData.ip!==req.ip.toString())
         {
             throw new HttpException('Bad token found',HttpStatus.UNAUTHORIZED);
         }
@@ -73,8 +73,7 @@ export class AuthorizationMiddleware implements NestMiddleware{
             }
         }
         //sada provjeravamo da li je token istekao
-        let currentTime=new Date();
-        const currentTimeStamp=currentTime.getTime()/1000;
+        const currentTimeStamp=new Date().getTime()/1000;
         if(currentTimeStamp>=jwtData.exp)
         {
             throw new HttpException('Token has expired',HttpStatus.UNAUTHORIZED);

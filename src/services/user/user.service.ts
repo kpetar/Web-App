@@ -30,23 +30,37 @@ export class UserService extends TypeOrmCrudService<User> {
         newUser.phoneNumber=data.phoneNumber;
         newUser.postalAddress=data.postalAddress;
 
-        return new Promise((resolve)=>{
-             this.user.save(newUser)
-            .then(result=>resolve(result))
-            .catch(()=>{
-                resolve(new ApiResponse('error', -6001,'This account has cannot been created'));
-            })
-        })
+        try
+        {
+            const savedUser=await this.user.save(newUser);
+
+            if(!savedUser)
+            {
+                throw new Error('');
+            }
+            
+            return savedUser;
+        }
+        catch(e)
+        {
+            return new ApiResponse('error',-6001, 'This account cannot be created.');
+        }
     }
 
     async getById(id:number){
         return await this.user.findOne(id);
     }
 
-    async getByEmail(email:string){
-        return await this.user.findOne({
+    async getByEmail(email:string):Promise<User|null>{
+        const user= await this.user.findOne({
             email:email
         });
+
+        if(!user)
+        {
+            return null;
+        }
+        return user;
     }
 
     async addToken(userId:number, token:string, expiresAt:string)
