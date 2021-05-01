@@ -1,17 +1,17 @@
 import * as Validator from 'class-validator';
-import { AddArticleFeaturesDto } from './add.article.features.dto';
+import { ArticleFeatureComponentDto } from './article.feature.component.dto';
 
 export class EditArticleDto{
     @Validator.IsNotEmpty()
     @Validator.IsString()
-    @Validator.Length(5,32)
+    @Validator.Length(5,128)
     name: string;
 
     categoryId:number;
 
     @Validator.IsNotEmpty()
     @Validator.IsString()
-    @Validator.Length(1,32)
+    @Validator.Length(5,255)
     excerpt: string;
 
     @Validator.IsNotEmpty()
@@ -26,7 +26,7 @@ export class EditArticleDto{
 
     @Validator.IsNotEmpty()
     @Validator.IsIn([0,1])
-    isPromoted: number;
+    isPromoted: 0|1;
     
     @Validator.IsNotEmpty()
     @Validator.IsPositive()
@@ -42,5 +42,5 @@ export class EditArticleDto{
     @Validator.ValidateNested({
         always:true
     })
-    features:AddArticleFeaturesDto[] |null;
+    features:ArticleFeatureComponentDto[] |null;
 }

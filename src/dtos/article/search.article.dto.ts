@@ -1,5 +1,5 @@
 import * as Validator from 'class-validator';
-import { AddArticleFeaturesDto } from './add.article.features.dto';
+import {  ArticleSearchFeatureComponentDto } from './article.search.feature.component';
 
 export class SearchArticleDto{
     
@@ -40,15 +40,15 @@ export class SearchArticleDto{
     @Validator.ValidateNested({
         always:true
     })
-    features:AddArticleFeaturesDto[]
+    features:ArticleSearchFeatureComponentDto[]
 
     @Validator.IsOptional()
-    @Validator.IsIn(["name","price"])
-    orderBy:"name"|"price";
+    @Validator.IsIn(['name','price'])
+    orderBy:'name'|'price';
 
     @Validator.IsOptional()
-    @Validator.IsIn(["ASC","DESC"])
-    orderDirection:"ASC"|"DESC";
+    @Validator.IsIn(['ASC','DESC'])
+    orderDirection:'ASC'|'DESC';
 
     @Validator.IsOptional()
     @Validator.IsPositive()

@@ -28,7 +28,7 @@ export class ArticleService extends TypeOrmCrudService<Article>{
 
     async createFullArticle(data:AddArticleDto):Promise<Article|ApiResponse>{
 
-        let newArticle=new Article();
+        let newArticle:Article=new Article();
 
         newArticle.name         =   data.name;
         newArticle.categoryId   =   data.categoryId;
@@ -37,7 +37,7 @@ export class ArticleService extends TypeOrmCrudService<Article>{
 
         let savedArticle=await this.article.save(newArticle);
 
-        let newArticlePrice=new ArticlePrice();
+        let newArticlePrice:ArticlePrice=new ArticlePrice();
 
         newArticlePrice.articleId   =   savedArticle.articleId;
         newArticlePrice.price       =   data.price;
@@ -47,7 +47,7 @@ export class ArticleService extends TypeOrmCrudService<Article>{
 
         for(let feature of data.features)
         {
-            let newArticleFeature=new ArticleFeature();
+            let newArticleFeature:ArticleFeature=new ArticleFeature();
             newArticleFeature.articleId =   savedArticle.articleId;
             newArticleFeature.featureId =   feature.featureId;
             newArticleFeature.value     =   feature.value;
@@ -82,12 +82,12 @@ export class ArticleService extends TypeOrmCrudService<Article>{
             return new ApiResponse('error',-5001,'Article not found');
         }
 
-        existingArticle.name=data.name;
-        existingArticle.categoryId=data.categoryId;
-        existingArticle.excerpt=data.excerpt;
-        existingArticle.description=data.description;
-        existingArticle.status=data.status;
-        existingArticle.isPromoted=data.isPromoted;
+        existingArticle.name        =data.name;
+        existingArticle.categoryId  =data.categoryId;
+        existingArticle.excerpt     =data.excerpt;
+        existingArticle.description =data.description;
+        existingArticle.status      =data.status;
+        existingArticle.isPromoted  =data.isPromoted;
 
         //cuvanje u bazi podataka
         const savedArticle=await this.article.save(existingArticle);
@@ -127,7 +127,7 @@ export class ArticleService extends TypeOrmCrudService<Article>{
 
                 for(let feature of data.features)
                 {
-                    let newArticleFeature=new ArticleFeature();
+                    let newArticleFeature:ArticleFeature=new ArticleFeature();
                     newArticleFeature.articleId =   articleId;
                     newArticleFeature.featureId =   feature.featureId;
                     newArticleFeature.value     =   feature.value;
@@ -166,8 +166,8 @@ export class ArticleService extends TypeOrmCrudService<Article>{
         if(data.keywords && data.keywords.length>0)
         {
             builder.andWhere(
-            '(article.name LIKE :kw OR article.excerpt LIKE :kw OR article.description LIKE :kw)', {
-                kw:'%' + data.keywords + '%'
+            `(article.name LIKE :kw OR article.excerpt LIKE :kw OR article.description LIKE :kw)`, {
+                kw:'%' + data.keywords.trim() + '%'
             });
         }
 
@@ -192,16 +192,16 @@ export class ArticleService extends TypeOrmCrudService<Article>{
         {
             for(const feature of data.features)
             {
-                builder.andWhere('af.featureId=:fId AND af.value IN (:fValues)',{
+                builder.andWhere('af.featureId= :fId AND af.value IN (:fValues)',{
                     fId:feature.featureId,
-                    fValues:feature.value
+                    fValues:feature.values
                 });
             }
         }
 
         //Pretpostavka da je orderBy='name' i orderDirection='ASC'
         let orderBy='article.name';
-        let orderDirection:"ASC"|"DESC"="ASC";
+        let orderDirection:'ASC'|'DESC'='ASC';
 
         if(data.orderBy)
         {
