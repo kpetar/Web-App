@@ -40,6 +40,14 @@ export class Order {
   @Validator.IsIn(["rejected", "accepted", "shipped", "pending"])
   status: "rejected" | "accepted" | "shipped" | "pending";
 
+  @Column({
+    type:"int",
+    name:"user_id",
+    unsigned:true
+  })
+  userId:number
+
+
   @OneToOne(() => Cart, (cart) => cart.order, {
     onDelete: "NO ACTION",
     onUpdate: "CASCADE",
