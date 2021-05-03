@@ -44,6 +44,9 @@ export class OrderService{
         const savedOrder=await this.order.save(newOrder);
 
 
+        cart.createdAt=new Date();
+        await this.cart.save(cart);
+
         return await this.getById(savedOrder.orderId);
 
 
@@ -57,9 +60,41 @@ export class OrderService{
                 "cart.user",
                 "cart.cartArticles",
                 "cart.cartArticles.article",
-                "cart.cartArticles.article.category"
+                "cart.cartArticles.article.category",
+                "cart.cartArticles.article.articlePrices"
             ]
         });
+    }
+
+    async getAllByUserId(userId:number):Promise<Order[]>
+    {
+        return await this.order.find({
+            where:{
+                userId:userId
+            },
+            relations:[
+                "cart",
+                "cart.user",
+                "cart.cartArticles",
+                "cart.cartArticles.article",
+                "cart.cartArticles.article.category",
+                "cart.cartArticles.article.articlePrices"
+            ]
+        });
+    }
+
+    async getAll()
+    {
+        return await this.order.find({
+            relations:[
+                "cart",
+                "cart.user",
+                "cart.cartArticles",
+                "cart.cartArticles.article",
+                "cart.cartArticles.article.category",
+                "cart.cartArticles.article.articlePrices"
+            ]
+        })
     }
 
     async changeStatus(orderId:number, data:ChangeOrderStatusDto):Promise<Order|ApiResponse>
@@ -74,7 +109,7 @@ export class OrderService{
 
         await this.order.save(order);
 
-        return order;
+        return await this.getById(orderId);
     }
 
 }

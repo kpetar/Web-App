@@ -40,19 +40,19 @@ export class CartService{
         return cart;
     }
 
-    async createNewCartForUser(userId:number)
+    async createNewCartForUser(userId:number):Promise<Cart>
     {
         const newCart:Cart=new Cart();
         newCart.userId=userId;
         return await this.cart.save(newCart);
     }
 
-    async addArticleToCart(articleId:number, cartId:number, quantity:number):Promise<Cart>
+    async addArticleToCart(cartId:number , articleId:number, quantity:number):Promise<Cart>
     {
         let record:CartArticle=await this.cartArticle.findOne({
             cartId:cartId,
             articleId:articleId
-        })
+        });
 
         if(!record)
         {
@@ -70,24 +70,25 @@ export class CartService{
         return await this.getById(cartId);
     }
 
-    async getById(cartId:number)
+    async getById(cartId:number):Promise<Cart>
     {
         return await this.cart.findOne(cartId,{
             relations:[
                 "user",
                 "cartArticles",
                 "cartArticles.article",
-                "cartArticles.article.category"
+                "cartArticles.article.category",
+                "cartArticles.article.articlePrices"
             ]
         });
     }
 
-    async changeQuantity(cartId:number, articleId:number, newQuantity:number)
+    async changeQuantity(cartId:number, articleId:number, newQuantity:number):Promise<Cart>
     {
         let record:CartArticle=await this.cartArticle.findOne({
             cartId:cartId,
             articleId:articleId
-        })
+        });
 
         if(record)
         {

@@ -32,10 +32,9 @@ export class CartController{
       @Get()
       @UseGuards(RoleCheckerGuard)
       @AllowToRoles('user')
-      async getCurrentCart(@Req() req:Request)
+      async getCurrentCart(@Req() req:Request):Promise<Cart>
       {
-          const userId=req.token.id;
-          this.getActiveCartForUserId(userId);
+          return await this.getActiveCartForUserId(req.token.id);
       }
 
       @Post('addToCart')
@@ -44,7 +43,7 @@ export class CartController{
       async addToCart(@Body() data:AddArticleToCartDto, @Req() req:Request):Promise<Cart>
       {
         const cart=await this.getActiveCartForUserId(req.token.id);
-        return await this.cartService.addArticleToCart(data.articleId, cart.cartId, data.quantity);
+        return await this.cartService.addArticleToCart( cart.cartId , data.articleId, Number(data.quantity));
       }
 
       @Patch()
@@ -62,7 +61,21 @@ export class CartController{
       async makeAnOrder(@Req() req:Request):Promise<Order|ApiResponse>
       {
           const cart=await this.getActiveCartForUserId(req.token.id);
-          return await this.orderService.add(cart.cartId);
+          const order = await this.orderService.add(cart.cartId);
+          if(order instanceof ApiResponse)
+          {
+            return order;
+          }
+
+          return order;
+      }
+
+      @Get('orders')
+      @UseGuards(RoleCheckerGuard)
+      @AllowToRoles('user')
+      async getOrders(@Req() req:Request):Promise<Order[]>
+      {
+        return await this.orderService.getAllByUserId(req.token.id);
       }
       
 }
