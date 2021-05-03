@@ -14,6 +14,7 @@ import { UserService } from "src/services/user/user.service";
 import { LoginUserDto } from "src/dtos/user/login.user.dto";
 import { JwtRefreshDto } from "src/dtos/auth/jwt.refresh.dto";
 import { UserRefreshTokenDto } from "src/dtos/auth/user.refresh.token.dto";
+import { AdministratorRefreshTokenDto } from "src/dtos/auth/administrator.refresh.token.dto";
 
 @Controller('authorization')
 export class AuthorizationController{
@@ -63,15 +64,103 @@ async doAdministratorLogin(
     //u jwtData se nalaze podaci. Da bi se formirao token na osnovu ovih podataka treba da se potpise(metoda sign())
     let token:string=jwt.sign(jwtData.toPlainObject(), jwtSecret);
 
+    const jwtRefreshData=new JwtRefreshDto();
+    jwtRefreshData.id=jwtData.id;
+    jwtRefreshData.role=jwtData.role;
+    jwtRefreshData.identity=jwtData.identity;
+    jwtRefreshData.exp=this.getDatePlus(60*60*24*31);
+    jwtRefreshData.ip=jwtData.ip;
+    jwtRefreshData.userAgent=jwtData.userAgent;
+
+    let refreshToken:string=jwt.sign(jwtRefreshData.toPlainObject(), jwtSecret);
+
     const responseObject=new LoginInfoDto(
         administrator.administratorId,
         administrator.username,
         token,
-        "",
-        ""
-    )
+        refreshToken,
+        this.getIsoData(jwtRefreshData.exp)
+    );
+
+    await this.administratorService.addToken(
+        administrator.administratorId,
+        refreshToken,
+        this.getDatabaseDateFormat(this.getIsoData(jwtRefreshData.exp))
+    );
 
     return new Promise(resolve=>resolve(responseObject));
+}
+
+@Post('administrator/refresh')
+async administratorTokenRefresh(@Req() req:Request, @Body() data:AdministratorRefreshTokenDto):Promise<LoginInfoDto|ApiResponse>{
+    const administratorToken=await this.administratorService.getAdministratorToken(data.token);
+
+    if(!administratorToken)
+    {
+        return new ApiResponse('error', -10002, 'No such refresh token!');
+    }
+
+    if(administratorToken.isValid===0)
+    {
+        return new ApiResponse('error', -10003, 'The token is no longer valid!');
+    }
+
+    const currentDate=new Date();
+    const expireDate=new Date(administratorToken.expiresAt);
+
+    //da li je datum isteka manji od trenutnog datuma
+    if(expireDate.getTime()<currentDate.getTime())
+    {
+        return new ApiResponse('error', -10004, 'The token has expired!');
+    } 
+
+    //do tokena se dolazi verifikacijom
+
+    let jwtRefreshData:JwtRefreshDto;
+
+    try{
+        jwtRefreshData=jwt.verify(data.token, jwtSecret);
+    }
+    catch(e)
+        {
+            throw new HttpException('Bad token found', HttpStatus.UNAUTHORIZED);
+        }
+
+    if(!jwtRefreshData)
+    {
+        throw new HttpException('Bad token found', HttpStatus.UNAUTHORIZED);
+    }
+
+    if(jwtRefreshData.ip!==req.ip.toString())
+    {
+        throw new HttpException('Bad token found',HttpStatus.UNAUTHORIZED);
+    }
+
+    if(jwtRefreshData.userAgent!==req.headers["user-agent"])
+    {
+        throw new HttpException('Bad token found',HttpStatus.UNAUTHORIZED);
+    }
+
+    const jwtData=new JwtDataDto();
+    jwtData.role=jwtRefreshData.role;
+    jwtData.id=jwtRefreshData.id;
+    jwtData.identity=jwtRefreshData.identity;
+    jwtData.exp=this.getDatePlus(60*5);
+    jwtData.ip=jwtRefreshData.ip;
+    jwtData.userAgent=jwtRefreshData.userAgent;
+
+
+    let token:string=jwt.sign(jwtData.toPlainObject(),jwtSecret);
+
+    const responseObject=new LoginInfoDto(
+        jwtData.id,
+        jwtData.identity,
+        token,
+        data.token,
+        this.getIsoData(jwtData.exp)
+    );
+
+    return responseObject;
 }
 
 @Post('user/register') //http://localhost:3000/authorization/user/register

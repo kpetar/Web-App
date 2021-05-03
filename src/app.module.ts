@@ -30,6 +30,7 @@ import { CartService } from './services/cart/cart.service';
 import { OrderService } from './services/order/order.service';
 import { AdministratorOrderController } from './controllers/api/administrator.order.controller';
 import { UserToken } from './entities/user-token.entity';
+import { AdministratorToken } from './entities/administrator-token.entity';
 
 
 
@@ -59,7 +60,8 @@ import { UserToken } from './entities/user-token.entity';
         Order,
         Photo,
         User,
-        UserToken
+        UserToken,
+        AdministratorToken
       ]
     }),
     //Kada je napravljen entitet Administrator, takodje mora biti i nabrojan
@@ -76,7 +78,8 @@ import { UserToken } from './entities/user-token.entity';
         Order,
         Photo,
         User,
-        UserToken
+        UserToken,
+        AdministratorToken
     ])
     //ovoj f-ji prosledjujemo spisak svih entiteta za koje treba automatski da napravi repozitorijume
   ],
