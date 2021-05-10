@@ -136,7 +136,7 @@
 					},
 					"response": [
 						{
-							"name": "Response user login",
+							"name": "User login",
 							"originalRequest": {
 								"method": "POST",
 								"header": [
@@ -148,7 +148,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"email\":\"marinko@outlook.com\",\r\n    \"password\":\"masa\"\r\n}"
+									"raw": "{\r\n    \"email\":\"peks@peks.com\",\r\n    \"password\":\"peks@peks.com\"\r\n}"
 								},
 								"url": {
 									"raw": "http://localhost:3000/authorization/user/login",
@@ -173,20 +173,24 @@
 									"value": "Express"
 								},
 								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
 									"key": "Content-Type",
 									"value": "application/json; charset=utf-8"
 								},
 								{
 									"key": "Content-Length",
-									"value": "320"
+									"value": "635"
 								},
 								{
 									"key": "ETag",
-									"value": "W/\"140-sXD1UR1oQf3wKKexP8X4NaYAlHc\""
+									"value": "W/\"27b-1+FjLJ7EgUWk7ww6ahaMo6Eb/OM\""
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 09 Apr 2021 14:36:21 GMT"
+									"value": "Thu, 29 Apr 2021 10:04:43 GMT"
 								},
 								{
 									"key": "Connection",
@@ -198,9 +202,39 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"id\": 5,\n    \"identity\": \"marinko@outlook.com\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwicm9sZSI6InVzZXIiLCJpZGVudGl0eSI6Im1hcmlua29Ab3V0bG9vay5jb20iLCJleHQiOjE2MTkxODg1ODEuOTQsImlwIjoiOjoxIiwidXNlckFnZW50IjoiUG9zdG1hblJ1bnRpbWUvNy4yNi4xMCIsImlhdCI6MTYxNzk3ODk4MX0.aPztNt8x_IOV0zB3ei3yxB7vYhR_xfPEDrSU7LSVhgM\"\n}"
+							"body": "{\n    \"id\": 7,\n    \"identity\": \"peks@peks.com\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Nywicm9sZSI6InVzZXIiLCJpZGVudGl0eSI6InBla3NAcGVrcy5jb20iLCJleHQiOjE2MTk2OTA5ODMuMjM4LCJpcCI6Ijo6MSIsInVzZXJBZ2VudCI6IlBvc3RtYW5SdW50aW1lLzcuMjguMCIsImlhdCI6MTYxOTY5MDY4M30.a5g_yx4LAi-a5f6YVLr0R_tCyfoyTsP7rbfEg9hJMXQ\",\n    \"refreshToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Nywicm9sZSI6InVzZXIiLCJpZGVudGl0eSI6InBla3NAcGVrcy5jb20iLCJleHQiOjE2MjIzNjkwODMuMjM5LCJpcCI6Ijo6MSIsInVzZXJBZ2VudCI6IlBvc3RtYW5SdW50aW1lLzcuMjguMCIsImlhdCI6MTYxOTY5MDY4M30.Bbd2CpAhl4XdLMVcaWnu0d69W9UQsCQPqBVInIjdiRs\",\n    \"refreshTokenExpiredAt\": \"2021-05-30T10:04:43.239Z\"\n}"
 						}
 					]
+				},
+				{
+					"name": "Refresh user token",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"token\":\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OCwicm9sZSI6InVzZXIiLCJpZGVudGl0eSI6Inh4QGhvdG1haWwuY29tIiwiZXh0IjoxNjIyMzc3MDQ5LjYzNSwiaXAiOiI6OjEiLCJ1c2VyQWdlbnQiOiJQb3N0bWFuUnVudGltZS83LjI4LjAiLCJpYXQiOjE2MTk2OTg2NDl9.kpYrkZOx8BhP98gu6sNr5mGyBIz0r2htkp2D5CSFbKY\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/authorization/user/refresh",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"authorization",
+								"user",
+								"refresh"
+							]
+						}
+					},
+					"response": []
 				}
 			],
 			"auth": {
@@ -478,7 +512,7 @@
 					]
 				},
 				{
-					"name": "Delete a single article photo",
+					"name": "Delete an photo of the article",
 					"request": {
 						"method": "DELETE",
 						"header": [],
@@ -662,7 +696,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\":\"ACME SDD 256GB\",\r\n    \"categoryId\":5,\r\n    \"excerpt\":\"Kratak opis\",\r\n    \"description\":\"Detaljan opis\",\r\n    \"price\":72.31,\r\n    \"features\":[\r\n        {\r\n            \"featureId\":1,\r\n            \"value\":\"256GB\"\r\n        }\r\n    ]\r\n}",
+							"raw": "{\r\n    \"name\":\"Dell Optiplex 7010 Tower\",\r\n    \"categoryId\":4,\r\n    \"excerpt\":\"Računar Dell Optiplex 7010 Tower\",\r\n    \"description\":\"Processor: Intel Core i3-3240 3,40GHz RAM: 4GB DDR3 HDD: 500GB Grafika: Intel HD Konektori: USB 2.0×10, LAN, RS232, DisplayPort x2, VGA\",\r\n    \"price\":149.00 ,\r\n    \"features\":[\r\n        {\r\n            \"featureId\":1,\r\n            \"value\":\"Intel Core i3-3240 3,40GHz\"\r\n        },\r\n        {\r\n\"featureId\":2,\r\n            \"value\":\"4GB DDR3\"\r\n        },\r\n        {\r\n\"featureId\":13,\r\n            \"value\":\"500GB\"\r\n        },\r\n        {\r\n\"featureId\":7,\r\n            \"value\":\"Intel HD\"\r\n        }\r\n    ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -750,6 +784,293 @@
 							"body": "{\n    \"articleId\": 3,\n    \"name\": \"ACME SDD 256GB\",\n    \"categoryId\": 5,\n    \"excerpt\": \"Kratak opis\",\n    \"description\": \"Detaljan opis\",\n    \"status\": \"available\",\n    \"isPromoted\": 0,\n    \"createdAt\": \"2021-04-08T11:06:38.000Z\",\n    \"category\": {\n        \"categoryId\": 5,\n        \"name\": \"Hard diskovi\",\n        \"imagePath\": \"assets/pc/memory/hdd.jpg\",\n        \"parentCategoryId\": 4\n    },\n    \"articleFeatures\": [\n        {\n            \"articleFeatureId\": 12,\n            \"articleId\": 3,\n            \"featureId\": 1,\n            \"value\": \"256GB\"\n        }\n    ],\n    \"features\": [\n        {\n            \"featureId\": 1,\n            \"name\": \"Kapacitet\",\n            \"categoryId\": 5\n        }\n    ],\n    \"articlePrices\": [\n        {\n            \"articlePriceId\": 5,\n            \"articleId\": 3,\n            \"price\": \"72.31\",\n            \"createdAt\": \"2021-04-08T11:06:38.000Z\"\n        }\n    ]\n}"
 						}
 					]
+				},
+				{
+					"name": "Search an existing article",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"categoryId\":5,\r\n    \"minPrice\":30,\r\n    \r\n    \"orderBy\":\"name\",\r\n    \"orderDirection\":\"ASC\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/article/searchArticle",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"article",
+								"searchArticle"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Response Search an existing article",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"categoryId\":5,\r\n    \"minPrice\":30,\r\n    \r\n    \"orderBy\":\"name\",\r\n    \"orderDirection\":\"ASC\"\r\n\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/article/searchArticle",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"article",
+										"searchArticle"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1883"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"75b-PznR3wK+1ymnHOSnkQToJnVDwoo\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 15 Apr 2021 11:12:46 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"articleId\": 2,\n        \"name\": \"ACMI HDMI 250GB\",\n        \"categoryId\": 5,\n        \"excerpt\": \"Promijenjen opis\",\n        \"description\": \"Opis nije promijenjen\",\n        \"status\": \"available\",\n        \"isPromoted\": 1,\n        \"createdAt\": \"2021-03-30T16:10:12.000Z\",\n        \"category\": {\n            \"categoryId\": 5,\n            \"name\": \"Hard diskovi\",\n            \"imagePath\": \"assets/pc/memory/hdd.jpg\",\n            \"parentCategoryId\": 4\n        },\n        \"articleFeatures\": [\n            {\n                \"articleFeatureId\": 11,\n                \"articleId\": 2,\n                \"featureId\": 3,\n                \"value\": \"HDD\"\n            },\n            {\n                \"articleFeatureId\": 10,\n                \"articleId\": 2,\n                \"featureId\": 1,\n                \"value\": \"1024GB\"\n            }\n        ],\n        \"features\": [\n            {\n                \"featureId\": 1,\n                \"name\": \"Kapacitet\",\n                \"categoryId\": 5\n            },\n            {\n                \"featureId\": 3,\n                \"name\": \"Tehnologija\",\n                \"categoryId\": 5\n            }\n        ],\n        \"articlePrices\": [\n            {\n                \"articlePriceId\": 4,\n                \"articleId\": 2,\n                \"price\": \"57.33\",\n                \"createdAt\": \"2021-04-06T14:11:42.000Z\"\n            },\n            {\n                \"articlePriceId\": 3,\n                \"articleId\": 2,\n                \"price\": \"50.22\",\n                \"createdAt\": \"2021-03-30T16:10:12.000Z\"\n            }\n        ]\n    },\n    {\n        \"articleId\": 3,\n        \"name\": \"ACME SDD 256GB\",\n        \"categoryId\": 5,\n        \"excerpt\": \"Kratak opis\",\n        \"description\": \"Detaljan opis\",\n        \"status\": \"available\",\n        \"isPromoted\": 0,\n        \"createdAt\": \"2021-04-08T11:06:38.000Z\",\n        \"category\": {\n            \"categoryId\": 5,\n            \"name\": \"Hard diskovi\",\n            \"imagePath\": \"assets/pc/memory/hdd.jpg\",\n            \"parentCategoryId\": 4\n        },\n        \"articleFeatures\": [\n            {\n                \"articleFeatureId\": 12,\n                \"articleId\": 3,\n                \"featureId\": 1,\n                \"value\": \"256GB\"\n            }\n        ],\n        \"features\": [\n            {\n                \"featureId\": 1,\n                \"name\": \"Kapacitet\",\n                \"categoryId\": 5\n            }\n        ],\n        \"articlePrices\": [\n            {\n                \"articlePriceId\": 5,\n                \"articleId\": 3,\n                \"price\": \"72.31\",\n                \"createdAt\": \"2021-04-08T11:06:38.000Z\"\n            }\n        ]\n    },\n    {\n        \"articleId\": 6,\n        \"name\": \"ACME SDD 256GB\",\n        \"categoryId\": 5,\n        \"excerpt\": \"Kratak opis\",\n        \"description\": \"Detaljan opis\",\n        \"status\": \"available\",\n        \"isPromoted\": 0,\n        \"createdAt\": \"2021-04-12T09:23:23.000Z\",\n        \"category\": {\n            \"categoryId\": 5,\n            \"name\": \"Hard diskovi\",\n            \"imagePath\": \"assets/pc/memory/hdd.jpg\",\n            \"parentCategoryId\": 4\n        },\n        \"articleFeatures\": [\n            {\n                \"articleFeatureId\": 13,\n                \"articleId\": 6,\n                \"featureId\": 1,\n                \"value\": \"256GB\"\n            }\n        ],\n        \"features\": [\n            {\n                \"featureId\": 1,\n                \"name\": \"Kapacitet\",\n                \"categoryId\": 5\n            }\n        ],\n        \"articlePrices\": [\n            {\n                \"articlePriceId\": 6,\n                \"articleId\": 6,\n                \"price\": \"72.31\",\n                \"createdAt\": \"2021-04-12T09:23:23.000Z\"\n            }\n        ]\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Get a single article",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/article/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"article",
+								"2"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get a single article response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/article/2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"article",
+										"2"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "867"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"363-i6KsXAK88YhJ6fJl2b+cTuqC2BE\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 06 May 2021 18:27:38 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"articleId\": 2,\n    \"name\": \"ACMI HDMI 250GB\",\n    \"categoryId\": 5,\n    \"excerpt\": \"Promijenjen opis\",\n    \"description\": \"Opis nije promijenjen\",\n    \"status\": \"available\",\n    \"isPromoted\": 1,\n    \"createdAt\": \"2021-03-30T16:10:12.000Z\",\n    \"category\": {\n        \"categoryId\": 5,\n        \"name\": \"Hard diskovi\",\n        \"imagePath\": \"assets/pc/memory/hdd.jpg\",\n        \"parentCategoryId\": 4\n    },\n    \"photos\": [\n        {\n            \"photoId\": 9,\n            \"articleId\": 2,\n            \"imagePath\": \"2021430-1174550616-ACMI-HDMI-250GB.png\"\n        }\n    ],\n    \"articlePrices\": [\n        {\n            \"articlePriceId\": 3,\n            \"articleId\": 2,\n            \"price\": \"50.22\",\n            \"createdAt\": \"2021-03-30T16:10:12.000Z\"\n        },\n        {\n            \"articlePriceId\": 4,\n            \"articleId\": 2,\n            \"price\": \"57.33\",\n            \"createdAt\": \"2021-04-06T14:11:42.000Z\"\n        }\n    ],\n    \"articleFeatures\": [\n        {\n            \"articleFeatureId\": 10,\n            \"articleId\": 2,\n            \"featureId\": 1,\n            \"value\": \"1024GB\"\n        },\n        {\n            \"articleFeatureId\": 11,\n            \"articleId\": 2,\n            \"featureId\": 3,\n            \"value\": \"HDD\"\n        }\n    ],\n    \"features\": [\n        {\n            \"featureId\": 1,\n            \"name\": \"Kapacitet\",\n            \"categoryId\": 5\n        },\n        {\n            \"featureId\": 3,\n            \"name\": \"Tehnologija\",\n            \"categoryId\": 5\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Get a non-existing article",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/article/55",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"article",
+								"55"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get a non-existing article reponse",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/article/55",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"article",
+										"55"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "68"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"44-sm95f/qX4pTe+Gdc0icUf43I0KI\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 06 May 2021 18:37:52 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"statusCode\": 404,\n    \"message\": \"Article not found\",\n    \"error\": \"Not Found\"\n}"
+						}
+					]
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6ImFkbWluaXN0cmF0b3IiLCJpZGVudGl0eSI6ImFkbWluMTIzIiwiZXh0IjoxNjIwNTY3NzcwLjQxMywiaXAiOiI6OjEiLCJ1c2VyQWdlbnQiOiJQb3N0bWFuUnVudGltZS83LjI4LjAiLCJpYXQiOjE2MjA1Njc0NzB9.HU5eXv7hEFiQhP_Wh__PdYTJccfjVHOtizLp3iqBjdE",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
 				}
 			]
 		},
@@ -854,6 +1175,16 @@
 				{
 					"name": "Get all administrator",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6ImFkbWluaXN0cmF0b3IiLCJpZGVudGl0eSI6ImFkbWluIiwiZXh0IjoxNjE5NTExNTEzLjUzNSwiaXAiOiI6OjEiLCJ1c2VyQWdlbnQiOiJQb3N0bWFuUnVudGltZS83LjI4LjAiLCJpYXQiOjE2MTk1MTEyMTN9.t_snGaGHPmBxfr8keA1Qy_IqCX0MiPQtH2lyLIqEsRM",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [
 							{
@@ -1698,6 +2029,99 @@
 							"body": "{\n    \"featureId\": 4,\n    \"name\": \"Napon\",\n    \"categoryId\": 2,\n    \"category\": {\n        \"categoryId\": 2,\n        \"name\": \"Kućna elektronika\",\n        \"imagePath\": \"assets/home.jpg\",\n        \"parentCategoryId\": null\n    }\n}"
 						}
 					]
+				},
+				{
+					"name": "Get distinct for features of a single category",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OCwicm9sZSI6InVzZXIiLCJpZGVudGl0eSI6Inh4QGhvdG1haWwuY29tIiwiZXh0IjoxNjE5ODU3MjE0LjY5LCJpcCI6Ijo6MSIsInVzZXJBZ2VudCI6IlBvc3RtYW5SdW50aW1lLzcuMjguMCIsImlhdCI6MTYxOTg1NzE1NH0.U73hpbTCDFSSgcKZqPINr8RoTIW4cSANt568lgu5-ac",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/feature/values/5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"feature",
+								"values",
+								"5"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get distinct for features of a single category response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/feature/values/5",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"feature",
+										"values",
+										"5"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "193"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"c1-dey4IPM4fS5i72DG4iWIjLkirFU\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 01 May 2021 08:22:14 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"features\": [\n        {\n            \"featureId\": 1,\n            \"name\": \"Kapacitet\",\n            \"values\": [\n                \"1024GB\",\n                \"256GB\",\n                \"512GB\"\n            ]\n        },\n        {\n            \"featureId\": 2,\n            \"name\": \"Tip\",\n            \"values\": [\n                \"SATA3\"\n            ]\n        },\n        {\n            \"featureId\": 3,\n            \"name\": \"Tehnologija\",\n            \"values\": [\n                \"HDD\",\n                \"SSD\"\n            ]\n        }\n    ]\n}"
+						}
+					]
 				}
 			]
 		},
@@ -1707,11 +2131,21 @@
 				{
 					"name": "Create the new user account",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Nywicm9sZSI6InVzZXIiLCJpZGVudGl0eSI6InBla3NAcGVrcy5jb20iLCJleHQiOjE2MjIzNjkwODMuMjM5LCJpcCI6Ijo6MSIsInVzZXJBZ2VudCI6IlBvc3RtYW5SdW50aW1lLzcuMjguMCIsImlhdCI6MTYxOTY5MDY4M30.Bbd2CpAhl4XdLMVcaWnu0d69W9UQsCQPqBVInIjdiRs",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\":\"marinko@outlook.com\",\r\n    \"password\":\"masa\",\r\n    \"forename\":\"masa\",\r\n    \"surname\":\"masa\",\r\n    \"phoneNumber\":\"387512333213\",\r\n    \"postalAddress\":\"Rusija\"\r\n}",
+							"raw": "{\r\n    \"email\":\"pk@gmail.com\",\r\n    \"password\":\"pk@gmail.com\",\r\n    \"forename\":\"Petar\",\r\n    \"surname\":\"Kovac\",\r\n    \"phoneNumber\":\"+38766978020\",\r\n    \"postalAddress\":\"R.Srpska\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1895,6 +2329,656 @@
 					]
 				}
 			]
+		},
+		{
+			"name": "Cart and Order",
+			"item": [
+				{
+					"name": "Make an order for the current cart",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/cart/makeAnOrder",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"cart",
+								"makeAnOrder"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Reponse - Make an order for the current cart",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/cart/makeAnOrder",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"cart",
+										"makeAnOrder"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "455"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1c7-mWLiTrKNPseqZxodrJGqxenuQqI\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 14 Apr 2021 12:04:42 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"orderId\": 1,\n    \"createdAt\": \"2021-04-14T12:04:42.000Z\",\n    \"cartId\": 1,\n    \"status\": \"pending\",\n    \"cart\": {\n        \"cartId\": 1,\n        \"userId\": 5,\n        \"createdAt\": \"2021-04-14T11:57:33.000Z\",\n        \"user\": {\n            \"userId\": 5,\n            \"email\": \"marinko@outlook.com\",\n            \"passwordHash\": \"4C868B13EF02E9E47345BBEF22D813BC1B59F04DA8F07866A304F6DD7E783BC50C100C95B7FAEE643C013271AEC8F0EF9430FF02CB2A031164F392B049E9F12C\",\n            \"forename\": \"masa\",\n            \"surname\": \"masa\",\n            \"phoneNumber\": \"387512333213\",\n            \"postalAddress\": \"Rusija\"\n        },\n        \"cartArticles\": []\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Add article to the current cart",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"articleId\":\"11\",\r\n    \"quantity\":\"5\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/cart/addToCart",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"cart",
+								"addToCart"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Reponse - Make an order for the current cart",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/cart/makeAnOrder",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"cart",
+										"makeAnOrder"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "455"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1c7-mWLiTrKNPseqZxodrJGqxenuQqI\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 14 Apr 2021 12:04:42 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"orderId\": 1,\n    \"createdAt\": \"2021-04-14T12:04:42.000Z\",\n    \"cartId\": 1,\n    \"status\": \"pending\",\n    \"cart\": {\n        \"cartId\": 1,\n        \"userId\": 5,\n        \"createdAt\": \"2021-04-14T11:57:33.000Z\",\n        \"user\": {\n            \"userId\": 5,\n            \"email\": \"marinko@outlook.com\",\n            \"passwordHash\": \"4C868B13EF02E9E47345BBEF22D813BC1B59F04DA8F07866A304F6DD7E783BC50C100C95B7FAEE643C013271AEC8F0EF9430FF02CB2A031164F392B049E9F12C\",\n            \"forename\": \"masa\",\n            \"surname\": \"masa\",\n            \"phoneNumber\": \"387512333213\",\n            \"postalAddress\": \"Rusija\"\n        },\n        \"cartArticles\": []\n    }\n}"
+						},
+						{
+							"name": "Add article to the current cart response",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"articleId\":\"11\",\r\n    \"quantity\":\"1\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/cart/addToCart",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"cart",
+										"addToCart"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1813"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"715-NqSPAIc3RYMf3Y8tTW1G2Wlho0E\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 10 May 2021 12:20:02 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"cartId\": 21,\n    \"userId\": 8,\n    \"createdAt\": \"2021-05-10T12:16:18.000Z\",\n    \"user\": {\n        \"userId\": 8,\n        \"email\": \"xx@hotmail.com\",\n        \"passwordHash\": \"B1BF2F01588BEF4AE8C6D840D211F839197A3C037EF847A78CFEB3909FE92F627121A6F02BA44F273E718E986FF11A80DE4AC68AE0B022B5938959CAF9CE9DCB\",\n        \"forename\": \"Unknown\",\n        \"surname\": \"Unknown\",\n        \"phoneNumber\": \"+38766958331\",\n        \"postalAddress\": \"R.Srpska\"\n    },\n    \"cartArticles\": [\n        {\n            \"cartArticleId\": 36,\n            \"articleId\": 6,\n            \"cartId\": 21,\n            \"quantity\": 3,\n            \"article\": {\n                \"articleId\": 6,\n                \"name\": \"Apple iMac\",\n                \"categoryId\": 3,\n                \"excerpt\": \"Kratak opis\",\n                \"description\": \"Alienware Aurora R11, Core i9 10900F 10 C, 32GB Dual Channel HyperX, SSD 512 GB M.2 PCIe NVMe + HDD 2 TB 7.200 RPM SATA, NVIDIA GeForce RTX 2080 Ti 11 GB GDDR6, Multimedia Keyboard-KB216, MS116AW, W10Home, 3Yr\",\n                \"status\": \"available\",\n                \"isPromoted\": 0,\n                \"createdAt\": \"2021-04-12T09:23:23.000Z\",\n                \"category\": {\n                    \"categoryId\": 3,\n                    \"name\": \"Novi računari\",\n                    \"imagePath\": \"assets/pc/new-pc.jpg\",\n                    \"parentCategoryId\": 1\n                },\n                \"articlePrices\": [\n                    {\n                        \"articlePriceId\": 6,\n                        \"articleId\": 6,\n                        \"price\": \"72.31\",\n                        \"createdAt\": \"2021-04-12T09:23:23.000Z\"\n                    },\n                    {\n                        \"articlePriceId\": 12,\n                        \"articleId\": 6,\n                        \"price\": \"5299.00\",\n                        \"createdAt\": \"2021-05-08T12:04:22.000Z\"\n                    }\n                ]\n            }\n        },\n        {\n            \"cartArticleId\": 37,\n            \"articleId\": 11,\n            \"cartId\": 21,\n            \"quantity\": 1,\n            \"article\": {\n                \"articleId\": 11,\n                \"name\": \"Asus X409J\",\n                \"categoryId\": 16,\n                \"excerpt\": \"Laptop Asus X409J\",\n                \"description\": \"Processor: Intel Core i3-10005G1 1,20GHz up to 3,40GHz RAM: 4GB DDR4 SSD: 256GB M.2 Display: 14” Rezolucija: 1920×1080 Grafika: Intel HD 5500 up to 4181MB Cardreader, Wi-Fi, Webcam, USB 2.0: x2, USB 3.0: x1, HDMI.\",\n                \"status\": \"available\",\n                \"isPromoted\": 0,\n                \"createdAt\": \"2021-05-09T13:58:56.000Z\",\n                \"category\": {\n                    \"categoryId\": 16,\n                    \"name\": \"Novi laptopi\",\n                    \"imagePath\": \"assets/laptop/new-laptops.jpg\",\n                    \"parentCategoryId\": 14\n                },\n                \"articlePrices\": [\n                    {\n                        \"articlePriceId\": 17,\n                        \"articleId\": 11,\n                        \"price\": \"999.00\",\n                        \"createdAt\": \"2021-05-09T13:58:56.000Z\"\n                    }\n                ]\n            }\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Get current cart",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/cart/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"cart",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change article quantity",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"articleId\":,\r\n    \"quantity\":\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/cart",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"cart"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Order",
+			"item": [
+				{
+					"name": "Get order",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6ImFkbWluaXN0cmF0b3IiLCJpZGVudGl0eSI6ImFkbWluIiwiZXh0IjoxNjE5Nzc5MDY4LjE4MiwiaXAiOiI6OjEiLCJ1c2VyQWdlbnQiOiJQb3N0bWFuUnVudGltZS83LjI2LjEwIiwiaWF0IjoxNjE4NTY5NDY4fQ.siQFYrbD87Cb-tHwkXWcOkHhLm_OqTTvL81rCIErbiw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/order/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"order",
+								"1"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get order response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/order/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"order",
+										"1"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "455"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1c7-mWLiTrKNPseqZxodrJGqxenuQqI\""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 16 Apr 2021 10:38:03 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"orderId\": 1,\n    \"createdAt\": \"2021-04-14T12:04:42.000Z\",\n    \"cartId\": 1,\n    \"status\": \"pending\",\n    \"cart\": {\n        \"cartId\": 1,\n        \"userId\": 5,\n        \"createdAt\": \"2021-04-14T11:57:33.000Z\",\n        \"user\": {\n            \"userId\": 5,\n            \"email\": \"marinko@outlook.com\",\n            \"passwordHash\": \"4C868B13EF02E9E47345BBEF22D813BC1B59F04DA8F07866A304F6DD7E783BC50C100C95B7FAEE643C013271AEC8F0EF9430FF02CB2A031164F392B049E9F12C\",\n            \"forename\": \"masa\",\n            \"surname\": \"masa\",\n            \"phoneNumber\": \"387512333213\",\n            \"postalAddress\": \"Rusija\"\n        },\n        \"cartArticles\": []\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Edit order status",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6ImFkbWluaXN0cmF0b3IiLCJpZGVudGl0eSI6ImFkbWluIiwiZXh0IjoxNjE5Nzc5MDY4LjE4MiwiaXAiOiI6OjEiLCJ1c2VyQWdlbnQiOiJQb3N0bWFuUnVudGltZS83LjI2LjEwIiwiaWF0IjoxNjE4NTY5NDY4fQ.siQFYrbD87Cb-tHwkXWcOkHhLm_OqTTvL81rCIErbiw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"newStatus\":\"shipped\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/order/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"order",
+								"1"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Edit order status response",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"newStatus\":\"shipped\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/order/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"order",
+										"1"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "455"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1c7-bwahVgZLFqSGajDWgWquJLPhrPY\""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 16 Apr 2021 10:42:55 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"orderId\": 1,\n    \"createdAt\": \"2021-04-14T12:04:42.000Z\",\n    \"cartId\": 1,\n    \"status\": \"shipped\",\n    \"cart\": {\n        \"cartId\": 1,\n        \"userId\": 5,\n        \"createdAt\": \"2021-04-14T11:57:33.000Z\",\n        \"user\": {\n            \"userId\": 5,\n            \"email\": \"marinko@outlook.com\",\n            \"passwordHash\": \"4C868B13EF02E9E47345BBEF22D813BC1B59F04DA8F07866A304F6DD7E783BC50C100C95B7FAEE643C013271AEC8F0EF9430FF02CB2A031164F392B049E9F12C\",\n            \"forename\": \"masa\",\n            \"surname\": \"masa\",\n            \"phoneNumber\": \"387512333213\",\n            \"postalAddress\": \"Rusija\"\n        },\n        \"cartArticles\": []\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Get all orders",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/order/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"order",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get all orders response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/order/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"order",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "8994"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"2322-yBSpDYF1fU1wAh10DXk4lRByfAs\""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 07 May 2021 09:53:32 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"orderId\": 1,\n        \"createdAt\": \"2021-04-14T12:04:42.000Z\",\n        \"cartId\": 1,\n        \"status\": \"shipped\",\n        \"userId\": 0,\n        \"cart\": {\n            \"cartId\": 1,\n            \"userId\": 5,\n            \"createdAt\": \"2021-04-14T11:57:33.000Z\",\n            \"user\": {\n                \"userId\": 5,\n                \"email\": \"marinko@outlook.com\",\n                \"passwordHash\": \"4C868B13EF02E9E47345BBEF22D813BC1B59F04DA8F07866A304F6DD7E783BC50C100C95B7FAEE643C013271AEC8F0EF9430FF02CB2A031164F392B049E9F12C\",\n                \"forename\": \"masa\",\n                \"surname\": \"masa\",\n                \"phoneNumber\": \"387512333213\",\n                \"postalAddress\": \"Rusija\"\n            },\n            \"cartArticles\": []\n        }\n    },\n    {\n        \"orderId\": 5,\n        \"createdAt\": \"2021-04-14T12:15:49.000Z\",\n        \"cartId\": 4,\n        \"status\": \"rejected\",\n        \"userId\": 0,\n        \"cart\": {\n            \"cartId\": 4,\n            \"userId\": 5,\n            \"createdAt\": \"2021-04-14T12:10:21.000Z\",\n            \"user\": {\n                \"userId\": 5,\n                \"email\": \"marinko@outlook.com\",\n                \"passwordHash\": \"4C868B13EF02E9E47345BBEF22D813BC1B59F04DA8F07866A304F6DD7E783BC50C100C95B7FAEE643C013271AEC8F0EF9430FF02CB2A031164F392B049E9F12C\",\n                \"forename\": \"masa\",\n                \"surname\": \"masa\",\n                \"phoneNumber\": \"387512333213\",\n                \"postalAddress\": \"Rusija\"\n            },\n            \"cartArticles\": [\n                {\n                    \"cartArticleId\": 1,\n                    \"articleId\": 2,\n                    \"cartId\": 4,\n                    \"quantity\": 11,\n                    \"article\": {\n                        \"articleId\": 2,\n                        \"name\": \"ACMI HDMI 250GB\",\n                        \"categoryId\": 5,\n                        \"excerpt\": \"Promijenjen opis\",\n                        \"description\": \"Opis nije promijenjen\",\n                        \"status\": \"available\",\n                        \"isPromoted\": 1,\n                        \"createdAt\": \"2021-03-30T16:10:12.000Z\",\n                        \"category\": {\n                            \"categoryId\": 5,\n                            \"name\": \"Hard diskovi\",\n                            \"imagePath\": \"assets/pc/memory/hdd.jpg\",\n                            \"parentCategoryId\": 4\n                        },\n                        \"articlePrices\": [\n                            {\n                                \"articlePriceId\": 3,\n                                \"articleId\": 2,\n                                \"price\": \"50.22\",\n                                \"createdAt\": \"2021-03-30T16:10:12.000Z\"\n                            },\n                            {\n                                \"articlePriceId\": 4,\n                                \"articleId\": 2,\n                                \"price\": \"57.33\",\n                                \"createdAt\": \"2021-04-06T14:11:42.000Z\"\n                            }\n                        ]\n                    }\n                }\n            ]\n        }\n    },\n    {\n        \"orderId\": 6,\n        \"createdAt\": \"2021-05-03T15:09:19.000Z\",\n        \"cartId\": 6,\n        \"status\": \"pending\",\n        \"userId\": 0,\n        \"cart\": {\n            \"cartId\": 6,\n            \"userId\": 8,\n            \"createdAt\": \"2021-05-03T15:09:20.000Z\",\n            \"user\": {\n                \"userId\": 8,\n                \"email\": \"xx@hotmail.com\",\n                \"passwordHash\": \"B1BF2F01588BEF4AE8C6D840D211F839197A3C037EF847A78CFEB3909FE92F627121A6F02BA44F273E718E986FF11A80DE4AC68AE0B022B5938959CAF9CE9DCB\",\n                \"forename\": \"Unknown\",\n                \"surname\": \"Unknown\",\n                \"phoneNumber\": \"+38766958331\",\n                \"postalAddress\": \"R.Srpska\"\n            },\n            \"cartArticles\": [\n                {\n                    \"cartArticleId\": 2,\n                    \"articleId\": 2,\n                    \"cartId\": 6,\n                    \"quantity\": 116,\n                    \"article\": {\n                        \"articleId\": 2,\n                        \"name\": \"ACMI HDMI 250GB\",\n                        \"categoryId\": 5,\n                        \"excerpt\": \"Promijenjen opis\",\n                        \"description\": \"Opis nije promijenjen\",\n                        \"status\": \"available\",\n                        \"isPromoted\": 1,\n                        \"createdAt\": \"2021-03-30T16:10:12.000Z\",\n                        \"category\": {\n                            \"categoryId\": 5,\n                            \"name\": \"Hard diskovi\",\n                            \"imagePath\": \"assets/pc/memory/hdd.jpg\",\n                            \"parentCategoryId\": 4\n                        },\n                        \"articlePrices\": [\n                            {\n                                \"articlePriceId\": 3,\n                                \"articleId\": 2,\n                                \"price\": \"50.22\",\n                                \"createdAt\": \"2021-03-30T16:10:12.000Z\"\n                            },\n                            {\n                                \"articlePriceId\": 4,\n                                \"articleId\": 2,\n                                \"price\": \"57.33\",\n                                \"createdAt\": \"2021-04-06T14:11:42.000Z\"\n                            }\n                        ]\n                    }\n                }\n            ]\n        }\n    },\n    {\n        \"orderId\": 7,\n        \"createdAt\": \"2021-05-03T16:15:03.000Z\",\n        \"cartId\": 7,\n        \"status\": \"pending\",\n        \"userId\": 0,\n        \"cart\": {\n            \"cartId\": 7,\n            \"userId\": 8,\n            \"createdAt\": \"2021-05-03T16:15:04.000Z\",\n            \"user\": {\n                \"userId\": 8,\n                \"email\": \"xx@hotmail.com\",\n                \"passwordHash\": \"B1BF2F01588BEF4AE8C6D840D211F839197A3C037EF847A78CFEB3909FE92F627121A6F02BA44F273E718E986FF11A80DE4AC68AE0B022B5938959CAF9CE9DCB\",\n                \"forename\": \"Unknown\",\n                \"surname\": \"Unknown\",\n                \"phoneNumber\": \"+38766958331\",\n                \"postalAddress\": \"R.Srpska\"\n            },\n            \"cartArticles\": [\n                {\n                    \"cartArticleId\": 3,\n                    \"articleId\": 1,\n                    \"cartId\": 7,\n                    \"quantity\": 1,\n                    \"article\": {\n                        \"articleId\": 1,\n                        \"name\": \"ACME HDDX 512GB\",\n                        \"categoryId\": 5,\n                        \"excerpt\": \"Kratak opis2..\",\n                        \"description\": \"detaljan opis2...detaljan opis2...detadetaljan opis2...detaljan opis2...detaljan opis2...detaljan opis2...detaljan opis2...detaljan opis2...detaljan opis2...detaljan opis2...detaljan opis2...detaljan opis2...detaljan opis2...detaljan opis2...detaljan opis2...detaljan opis2...detaljan opis2...detaljan opis2...detaljan opis2...detaljan opis2...ljan opis2...\",\n                        \"status\": \"visible\",\n                        \"isPromoted\": 0,\n                        \"createdAt\": \"2021-03-30T10:57:27.000Z\",\n                        \"category\": {\n                            \"categoryId\": 5,\n                            \"name\": \"Hard diskovi\",\n                            \"imagePath\": \"assets/pc/memory/hdd.jpg\",\n                            \"parentCategoryId\": 4\n                        },\n                        \"articlePrices\": [\n                            {\n                                \"articlePriceId\": 1,\n                                \"articleId\": 1,\n                                \"price\": \"29.99\",\n                                \"createdAt\": \"2021-03-30T12:19:09.000Z\"\n                            },\n                            {\n                                \"articlePriceId\": 2,\n                                \"articleId\": 1,\n                                \"price\": \"25.99\",\n                                \"createdAt\": \"2021-03-30T12:19:16.000Z\"\n                            },\n                            {\n                                \"articlePriceId\": 7,\n                                \"articleId\": 1,\n                                \"price\": \"28.99\",\n                                \"createdAt\": \"2021-05-06T11:29:33.000Z\"\n                            }\n                        ]\n                    }\n                }\n            ]\n        }\n    },\n    {\n        \"orderId\": 8,\n        \"createdAt\": \"2021-05-03T16:19:42.000Z\",\n        \"cartId\": 8,\n        \"status\": \"pending\",\n        \"userId\": 0,\n        \"cart\": {\n            \"cartId\": 8,\n            \"userId\": 8,\n            \"createdAt\": \"2021-05-03T16:19:43.000Z\",\n            \"user\": {\n                \"userId\": 8,\n                \"email\": \"xx@hotmail.com\",\n                \"passwordHash\": \"B1BF2F01588BEF4AE8C6D840D211F839197A3C037EF847A78CFEB3909FE92F627121A6F02BA44F273E718E986FF11A80DE4AC68AE0B022B5938959CAF9CE9DCB\",\n                \"forename\": \"Unknown\",\n                \"surname\": \"Unknown\",\n                \"phoneNumber\": \"+38766958331\",\n                \"postalAddress\": \"R.Srpska\"\n            },\n            \"cartArticles\": [\n                {\n                    \"cartArticleId\": 7,\n                    \"articleId\": 2,\n                    \"cartId\": 8,\n                    \"quantity\": 2,\n                    \"article\": {\n                        \"articleId\": 2,\n                        \"name\": \"ACMI HDMI 250GB\",\n                        \"categoryId\": 5,\n                        \"excerpt\": \"Promijenjen opis\",\n                        \"description\": \"Opis nije promijenjen\",\n                        \"status\": \"available\",\n                        \"isPromoted\": 1,\n                        \"createdAt\": \"2021-03-30T16:10:12.000Z\",\n                        \"category\": {\n                            \"categoryId\": 5,\n                            \"name\": \"Hard diskovi\",\n                            \"imagePath\": \"assets/pc/memory/hdd.jpg\",\n                            \"parentCategoryId\": 4\n                        },\n                        \"articlePrices\": [\n                            {\n                                \"articlePriceId\": 3,\n                                \"articleId\": 2,\n                                \"price\": \"50.22\",\n                                \"createdAt\": \"2021-03-30T16:10:12.000Z\"\n                            },\n                            {\n                                \"articlePriceId\": 4,\n                                \"articleId\": 2,\n                                \"price\": \"57.33\",\n                                \"createdAt\": \"2021-04-06T14:11:42.000Z\"\n                            }\n                        ]\n                    }\n                },\n                {\n                    \"cartArticleId\": 8,\n                    \"articleId\": 1,\n                    \"cartId\": 8,\n                    \"quantity\": 1,\n                    \"article\": {\n                        \"articleId\": 1,\n                        \"name\": \"ACME HDDX 512GB\",\n                        \"categoryId\": 5,\n                        \"excerpt\": \"Kratak opis2..\",\n                        \"description\": \"detaljan opis2...detaljan opis2...detadetaljan opis2...detaljan opis2...detaljan opis2...detaljan opis2...detaljan opis2...detaljan opis2...detaljan opis2...detaljan opis2...detaljan opis2...detaljan opis2...detaljan opis2...detaljan opis2...detaljan opis2...detaljan opis2...detaljan opis2...detaljan opis2...detaljan opis2...detaljan opis2...ljan opis2...\",\n                        \"status\": \"visible\",\n                        \"isPromoted\": 0,\n                        \"createdAt\": \"2021-03-30T10:57:27.000Z\",\n                        \"category\": {\n                            \"categoryId\": 5,\n                            \"name\": \"Hard diskovi\",\n                            \"imagePath\": \"assets/pc/memory/hdd.jpg\",\n                            \"parentCategoryId\": 4\n                        },\n                        \"articlePrices\": [\n                            {\n                                \"articlePriceId\": 1,\n                                \"articleId\": 1,\n                                \"price\": \"29.99\",\n                                \"createdAt\": \"2021-03-30T12:19:09.000Z\"\n                            },\n                            {\n                                \"articlePriceId\": 2,\n                                \"articleId\": 1,\n                                \"price\": \"25.99\",\n                                \"createdAt\": \"2021-03-30T12:19:16.000Z\"\n                            },\n                            {\n                                \"articlePriceId\": 7,\n                                \"articleId\": 1,\n                                \"price\": \"28.99\",\n                                \"createdAt\": \"2021-05-06T11:29:33.000Z\"\n                            }\n                        ]\n                    }\n                }\n            ]\n        }\n    },\n    {\n        \"orderId\": 9,\n        \"createdAt\": \"2021-05-03T16:47:59.000Z\",\n        \"cartId\": 9,\n        \"status\": \"pending\",\n        \"userId\": 8,\n        \"cart\": {\n            \"cartId\": 9,\n            \"userId\": 8,\n            \"createdAt\": \"2021-05-03T16:47:59.000Z\",\n            \"user\": {\n                \"userId\": 8,\n                \"email\": \"xx@hotmail.com\",\n                \"passwordHash\": \"B1BF2F01588BEF4AE8C6D840D211F839197A3C037EF847A78CFEB3909FE92F627121A6F02BA44F273E718E986FF11A80DE4AC68AE0B022B5938959CAF9CE9DCB\",\n                \"forename\": \"Unknown\",\n                \"surname\": \"Unknown\",\n                \"phoneNumber\": \"+38766958331\",\n                \"postalAddress\": \"R.Srpska\"\n            },\n            \"cartArticles\": [\n                {\n                    \"cartArticleId\": 9,\n                    \"articleId\": 1,\n                    \"cartId\": 9,\n                    \"quantity\": 1,\n                    \"article\": {\n                        \"articleId\": 1,\n                        \"name\": \"ACME HDDX 512GB\",\n                        \"categoryId\": 5,\n                        \"excerpt\": \"Kratak opis2..\",\n                        \"description\": \"detaljan opis2...detaljan opis2...detadetaljan opis2...detaljan opis2...detaljan opis2...detaljan opis2...detaljan opis2...detaljan opis2...detaljan opis2...detaljan opis2...detaljan opis2...detaljan opis2...detaljan opis2...detaljan opis2...detaljan opis2...detaljan opis2...detaljan opis2...detaljan opis2...detaljan opis2...detaljan opis2...ljan opis2...\",\n                        \"status\": \"visible\",\n                        \"isPromoted\": 0,\n                        \"createdAt\": \"2021-03-30T10:57:27.000Z\",\n                        \"category\": {\n                            \"categoryId\": 5,\n                            \"name\": \"Hard diskovi\",\n                            \"imagePath\": \"assets/pc/memory/hdd.jpg\",\n                            \"parentCategoryId\": 4\n                        },\n                        \"articlePrices\": [\n                            {\n                                \"articlePriceId\": 1,\n                                \"articleId\": 1,\n                                \"price\": \"29.99\",\n                                \"createdAt\": \"2021-03-30T12:19:09.000Z\"\n                            },\n                            {\n                                \"articlePriceId\": 2,\n                                \"articleId\": 1,\n                                \"price\": \"25.99\",\n                                \"createdAt\": \"2021-03-30T12:19:16.000Z\"\n                            },\n                            {\n                                \"articlePriceId\": 7,\n                                \"articleId\": 1,\n                                \"price\": \"28.99\",\n                                \"createdAt\": \"2021-05-06T11:29:33.000Z\"\n                            }\n                        ]\n                    }\n                }\n            ]\n        }\n    },\n    {\n        \"orderId\": 10,\n        \"createdAt\": \"2021-05-03T17:10:28.000Z\",\n        \"cartId\": 10,\n        \"status\": \"pending\",\n        \"userId\": 8,\n        \"cart\": {\n            \"cartId\": 10,\n            \"userId\": 8,\n            \"createdAt\": \"2021-05-03T17:10:29.000Z\",\n            \"user\": {\n                \"userId\": 8,\n                \"email\": \"xx@hotmail.com\",\n                \"passwordHash\": \"B1BF2F01588BEF4AE8C6D840D211F839197A3C037EF847A78CFEB3909FE92F627121A6F02BA44F273E718E986FF11A80DE4AC68AE0B022B5938959CAF9CE9DCB\",\n                \"forename\": \"Unknown\",\n                \"surname\": \"Unknown\",\n                \"phoneNumber\": \"+38766958331\",\n                \"postalAddress\": \"R.Srpska\"\n            },\n            \"cartArticles\": [\n                {\n                    \"cartArticleId\": 10,\n                    \"articleId\": 1,\n                    \"cartId\": 10,\n                    \"quantity\": 2,\n                    \"article\": {\n                        \"articleId\": 1,\n                        \"name\": \"ACME HDDX 512GB\",\n                        \"categoryId\": 5,\n                        \"excerpt\": \"Kratak opis2..\",\n                        \"description\": \"detaljan opis2...detaljan opis2...detadetaljan opis2...detaljan opis2...detaljan opis2...detaljan opis2...detaljan opis2...detaljan opis2...detaljan opis2...detaljan opis2...detaljan opis2...detaljan opis2...detaljan opis2...detaljan opis2...detaljan opis2...detaljan opis2...detaljan opis2...detaljan opis2...detaljan opis2...detaljan opis2...ljan opis2...\",\n                        \"status\": \"visible\",\n                        \"isPromoted\": 0,\n                        \"createdAt\": \"2021-03-30T10:57:27.000Z\",\n                        \"category\": {\n                            \"categoryId\": 5,\n                            \"name\": \"Hard diskovi\",\n                            \"imagePath\": \"assets/pc/memory/hdd.jpg\",\n                            \"parentCategoryId\": 4\n                        },\n                        \"articlePrices\": [\n                            {\n                                \"articlePriceId\": 1,\n                                \"articleId\": 1,\n                                \"price\": \"29.99\",\n                                \"createdAt\": \"2021-03-30T12:19:09.000Z\"\n                            },\n                            {\n                                \"articlePriceId\": 2,\n                                \"articleId\": 1,\n                                \"price\": \"25.99\",\n                                \"createdAt\": \"2021-03-30T12:19:16.000Z\"\n                            },\n                            {\n                                \"articlePriceId\": 7,\n                                \"articleId\": 1,\n                                \"price\": \"28.99\",\n                                \"createdAt\": \"2021-05-06T11:29:33.000Z\"\n                            }\n                        ]\n                    }\n                }\n            ]\n        }\n    }\n]"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Category",
+			"item": [
+				{
+					"name": "Get all categories",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/category/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"category",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get all categories response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/category/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"category",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1135"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"46f-9DavqcV/D40VS4VrgflVuO7b/mY\""
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 04 May 2021 08:35:11 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"categoryId\": 1,\n        \"name\": \"Računarske komponente\",\n        \"imagePath\": \"assets/pc.jpg\",\n        \"parentCategoryId\": null,\n        \"categories\": [\n            {\n                \"categoryId\": 4,\n                \"name\": \"Memorijski mediji\",\n                \"imagePath\": \"assets/pc/memory.jpg\",\n                \"parentCategoryId\": 1\n            },\n            {\n                \"categoryId\": 3,\n                \"name\": \"Laptop računari\",\n                \"imagePath\": \"assets/pc/laptop.jpg\",\n                \"parentCategoryId\": 1\n            }\n        ],\n        \"features\": []\n    },\n    {\n        \"categoryId\": 2,\n        \"name\": \"Kućna elektronika\",\n        \"imagePath\": \"assets/home.jpg\",\n        \"parentCategoryId\": null,\n        \"categories\": [],\n        \"features\": [\n            {\n                \"featureId\": 4,\n                \"name\": \"Napon\",\n                \"categoryId\": 2\n            }\n        ]\n    },\n    {\n        \"categoryId\": 3,\n        \"name\": \"Laptop računari\",\n        \"imagePath\": \"assets/pc/laptop.jpg\",\n        \"parentCategoryId\": 1,\n        \"categories\": [],\n        \"features\": []\n    },\n    {\n        \"categoryId\": 4,\n        \"name\": \"Memorijski mediji\",\n        \"imagePath\": \"assets/pc/memory.jpg\",\n        \"parentCategoryId\": 1,\n        \"categories\": [\n            {\n                \"categoryId\": 5,\n                \"name\": \"Hard diskovi\",\n                \"imagePath\": \"assets/pc/memory/hdd.jpg\",\n                \"parentCategoryId\": 4\n            }\n        ],\n        \"features\": []\n    },\n    {\n        \"categoryId\": 5,\n        \"name\": \"Hard diskovi\",\n        \"imagePath\": \"assets/pc/memory/hdd.jpg\",\n        \"parentCategoryId\": 4,\n        \"categories\": [],\n        \"features\": [\n            {\n                \"featureId\": 1,\n                \"name\": \"Kapacitet\",\n                \"categoryId\": 5\n            },\n            {\n                \"featureId\": 2,\n                \"name\": \"Tip\",\n                \"categoryId\": 5\n            },\n            {\n                \"featureId\": 3,\n                \"name\": \"Tehnologija\",\n                \"categoryId\": 5\n            }\n        ]\n    }\n]"
+						}
+					]
+				}
+			]
 		}
 	],
 	"auth": {
@@ -1902,7 +2986,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwicm9sZSI6InVzZXIiLCJpZGVudGl0eSI6Im1hcmlua29Ab3V0bG9vay5jb20iLCJleHQiOjE2MTkyNTgzMjIuMDA5LCJpcCI6Ijo6MSIsInVzZXJBZ2VudCI6IlBvc3RtYW5SdW50aW1lLzcuMjYuMTAiLCJpYXQiOjE2MTgwNDg3MjJ9.vivj2uX2eAEbUQcWgxniciT8TPwfir5vXwY7Rf_oV54",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OCwicm9sZSI6InVzZXIiLCJpZGVudGl0eSI6Inh4QGhvdG1haWwuY29tIiwiZXh0IjoxNjIwNjQ0NzkxLjc5MSwiaXAiOiI6OjEiLCJ1c2VyQWdlbnQiOiJQb3N0bWFuUnVudGltZS83LjI4LjAiLCJpYXQiOjE2MjA2NDQ3MzF9.SYnYE5Q9rvNoLKINAaYKenl1dHikeN828V9pjRfPN-U",
 				"type": "string"
 			}
 		]
