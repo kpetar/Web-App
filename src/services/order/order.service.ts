@@ -21,7 +21,7 @@ export class OrderService{
 
         if(order)
         {
-            return new ApiResponse('error', -7001, "Order does exist!");
+            return new ApiResponse('error', -7001, "An order for this cart has already been made!");
         }
 
         const cart:Cart=await this.cart.findOne(cartId,{
