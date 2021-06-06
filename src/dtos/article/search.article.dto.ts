@@ -35,11 +35,6 @@ export class SearchArticleDto{
     })
     maxPrice:number;
     
-    @Validator.IsOptional()
-    @Validator.IsArray()
-    @Validator.ValidateNested({
-        always:true
-    })
     features:ArticleSearchFeatureComponentDto[]
 
     @Validator.IsOptional()
@@ -60,7 +55,7 @@ export class SearchArticleDto{
     page:number;
 
     @Validator.IsOptional()
-    @Validator.IsIn([5,10,15,20,25])
-    itemsPerPage:5|10|15|20|25;
+    @Validator.IsIn([5,10,25,50,75])
+    itemsPerPage:5|10|25|50|75;
 
 }

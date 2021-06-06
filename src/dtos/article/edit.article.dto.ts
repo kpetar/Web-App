@@ -4,14 +4,14 @@ import { ArticleFeatureComponentDto } from './article.feature.component.dto';
 export class EditArticleDto{
     @Validator.IsNotEmpty()
     @Validator.IsString()
-    @Validator.Length(5,128)
+    @Validator.Length(1,128)
     name: string;
 
     categoryId:number;
 
     @Validator.IsNotEmpty()
     @Validator.IsString()
-    @Validator.Length(5,255)
+    @Validator.Length(1,255)
     excerpt: string;
 
     @Validator.IsNotEmpty()
