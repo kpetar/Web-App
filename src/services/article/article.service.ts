@@ -224,7 +224,7 @@ export class ArticleService extends TypeOrmCrudService<Article>{
         builder.orderBy(orderBy, orderDirection);
 
         let page=0;
-        let itemsPerPage:5|10|15|20|25=15;
+        let itemsPerPage:5|10|25|50|75=25;
 
         if(data.page && typeof data.page==='number')
         {
