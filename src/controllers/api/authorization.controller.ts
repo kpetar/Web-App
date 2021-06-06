@@ -164,7 +164,7 @@ async administratorTokenRefresh(@Req() req:Request, @Body() data:AdministratorRe
 }
 
 @Post('user/register') //http://localhost:3000/authorization/user/register
-async userRegistration(@Body() data:UserRegistrationDto):Promise<User|ApiResponse>{
+async userRegistration(@Body() data:UserRegistrationDto){
     return await this.userService.userRegistration(data);
 }
 
