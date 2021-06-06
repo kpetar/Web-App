@@ -6,10 +6,10 @@ import { Repository } from "typeorm";
 
 @Injectable()
 export class CartService{
-    constructor(@InjectRepository(Cart) private readonly cart:Repository<Cart>,
-                @InjectRepository(CartArticle) private readonly cartArticle:Repository<CartArticle>
-        
-                ){}
+    constructor(
+        @InjectRepository(Cart) private readonly cart:Repository<Cart>,
+        @InjectRepository(CartArticle) private readonly cartArticle:Repository<CartArticle>
+        ){}
     
     async getLatestActiveCartByUserId(userId:number):Promise<Cart|null>
     {
@@ -21,10 +21,8 @@ export class CartService{
                 createdAt:"DESC",
             },
             take:1,
-            relations:[
-                "order"
-            ]
-        })
+            relations:[ "order" ]
+        });
 
         if(!carts || carts.length===0)
         {
@@ -47,18 +45,18 @@ export class CartService{
         return await this.cart.save(newCart);
     }
 
-    async addArticleToCart(cartId:number , articleId:number, quantity:number):Promise<Cart>
+    async addArticleToCart(articleId:number, cartId:number, quantity:number):Promise<Cart>
     {
         let record:CartArticle=await this.cartArticle.findOne({
+            articleId:articleId,
             cartId:cartId,
-            articleId:articleId
         });
 
         if(!record)
         {
             record=new CartArticle();
-            record.cartId=cartId;
             record.articleId=articleId;
+            record.cartId=cartId;
             record.quantity=quantity;
         }
         else
@@ -83,11 +81,11 @@ export class CartService{
         });
     }
 
-    async changeQuantity(cartId:number, articleId:number, newQuantity:number):Promise<Cart>
+    async changeQuantity(articleId:number, cartId:number, newQuantity:number):Promise<Cart>
     {
         let record:CartArticle=await this.cartArticle.findOne({
+            articleId:articleId,
             cartId:cartId,
-            articleId:articleId
         });
 
         if(record)
