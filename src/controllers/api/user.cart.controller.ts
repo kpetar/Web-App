@@ -43,7 +43,7 @@ export class CartController{
       async addToCart(@Body() data:AddArticleToCartDto, @Req() req:Request):Promise<Cart>
       {
         const cart=await this.getActiveCartForUserId(req.token.id);
-        return await this.cartService.addArticleToCart( cart.cartId , data.articleId, Number(data.quantity));
+        return await this.cartService.addArticleToCart(data.articleId, cart.cartId , Number(data.quantity));
       }
 
       @Patch()
@@ -52,7 +52,7 @@ export class CartController{
       async changeQuantity(@Body() data:editArticleInCartDto, @Req() req:Request):Promise<Cart>
       {
         const cart=await this.getActiveCartForUserId(req.token.id);
-        return await this.cartService.changeQuantity(cart.cartId, data.articleId, data.quantity);
+        return await this.cartService.changeQuantity( data.articleId, cart.cartId, Number(data.quantity));
       }
 
       @Post('makeAnOrder')
