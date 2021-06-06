@@ -33,7 +33,7 @@ export class Order {
   @Column({
     type:"enum",
     enum: ["rejected", "accepted", "shipped", "pending"],
-    default: () => "'pending'",
+    default: () => "pending",
   })
   @Validator.IsNotEmpty()
   @Validator.IsString()

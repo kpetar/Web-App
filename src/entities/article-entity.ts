@@ -48,11 +48,11 @@ export class Article {
   @Column({
     type:"enum",
     enum: ["available", "visible", "hidden"],
-    default: () => "'available'",
+    default: () => "available",
   })
   @Validator.IsNotEmpty()
   @Validator.IsString()
-  @Validator.IsIn(["available","visible","hidden"])
+  @Validator.IsIn(["available", "visible", "hidden"])
   status: "available" | "visible" | "hidden";
 
   @Column({

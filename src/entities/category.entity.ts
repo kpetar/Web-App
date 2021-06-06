@@ -36,6 +36,8 @@ export class Category {
     length: 128
   })
   @Validator.IsNotEmpty()
+  @Validator.IsString()
+  @Validator.Length(1,128)
   imagePath: string;
 
   @Column({
